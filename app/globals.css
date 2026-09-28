@@ -1320,37 +1320,32 @@ select.field__input { padding-right: 2.5rem; }
   color: var(--ink);
 }
 
+/* About: the coast as a land-tinted chart fragment, tying to the network page. */
 .coast-office {
   position: relative;
   isolation: isolate;
-  min-height: 70svh;
   overflow: hidden;
-  background: var(--ink);
-  display: flex;
-  align-items: flex-end;
-  padding-block: clamp(48px, 8vw, 96px);
+  background: var(--land);
+  color: var(--ink);
+  padding-block: clamp(64px, 9vw, 144px);
 }
 
-.coast-office__field {
+.coast-office__map {
   position: absolute;
-  inset: 0;
+  top: -6%;
+  bottom: -6%;
+  right: calc(var(--margin) * -1);
+  width: min(52vw, 640px);
+  fill: var(--ink);
+  opacity: 0.1;
+  pointer-events: none;
 }
 
-.coast-office__field::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(13, 33, 54, 0.15), rgba(13, 33, 54, 0.85));
-}
-
-.cta-ship__line {
-  max-width: 16ch;
-  margin: 0;
-  color: var(--water);
-  font-size: clamp(28px, 3.2vw, 48px);
-  font-weight: 620;
-  line-height: 1.02;
-  letter-spacing: -0.03em;
+@media (max-width: 1023px) {
+  .coast-office__map {
+    width: 78vw;
+    opacity: 0.07;
+  }
 }
 
 /* Buttons: one quiet state change. The primary is the only magenta fill on a page. */
@@ -1415,51 +1410,43 @@ select.field__input { padding-right: 2.5rem; }
   gap: 0.5rem;
 }
 
-.cta-ship {
-  position: relative;
-  height: 50svh;
-  overflow: hidden;
-  background: var(--ink);
+/* Enquiry strip: the three facts an agent needs first, on every page's end. */
+.enquiry {
+  background: var(--water);
+  padding-block: clamp(64px, 8vw, 128px);
 }
 
-.cta-ship__field {
-  position: absolute;
-  inset: 0;
+.enquiry__panel {
+  background: var(--shallows);
+  padding: clamp(28px, 4vw, 56px);
 }
 
-.cta-ship__field::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(13, 33, 54, 0.2), rgba(13, 33, 54, 0.8));
+.enquiry__form {
+  display: grid;
+  gap: 16px;
+  margin-top: clamp(24px, 3vw, 40px);
 }
 
-.cta-ship__bar {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 28px;
-  height: 100%;
-  padding: var(--margin);
+.enquiry .field {
+  --f-bg: var(--white);
+  --f-bg-focus: var(--white);
+  --f-border-hover: rgba(13, 33, 54, 0.3);
 }
 
-@media (max-width: 767px) {
-  .cta-ship__bar {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
-    gap: 22px;
-  }
+.enquiry__submit { align-self: end; }
 
-  .cta-ship__line {
-    max-width: 12em;
+@media (min-width: 768px) {
+  .enquiry__form {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
   }
 }
 
 @media (min-width: 1024px) {
-  .cta-ship { height: 60svh; }
+  .enquiry__form {
+    grid-template-columns: 1.5fr 1fr 1fr auto;
+    align-items: end;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -15,11 +15,20 @@ export function ContactForm() {
   // Set on the client after mount so the timing check measures the visitor's fill time,
   // not the build time of the prerendered page.
   const [startedAt, setStartedAt] = useState("");
+  // Values carried over from the enquiry strip's query string. Read on the client so the page stays static.
+  const [prefill, setPrefill] = useState({ vessel: "", port: "", arrival: "" });
   const successRef = useRef<HTMLHeadingElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setStartedAt(String(Date.now()));
+    const params = new URLSearchParams(window.location.search);
+    const port = params.get("port") ?? "";
+    setPrefill({
+      vessel: params.get("vessel") ?? "",
+      port: contactContent.ports.includes(port) ? port : "",
+      arrival: params.get("arrival") ?? "",
+    });
   }, []);
 
   useEffect(() => {
@@ -66,10 +75,10 @@ export function ContactForm() {
         <Field id="field-phone" label={contactContent.fields.phone}>
           <PhoneField />
         </Field>
-        <TextField id="field-vessel" name="vessel" label={contactContent.fields.vessel} autoComplete="off" />
+        <TextField key={`vessel-${prefill.vessel}`} id="field-vessel" name="vessel" label={contactContent.fields.vessel} autoComplete="off" defaultValue={prefill.vessel} />
         <div className="grid gap-5 sm:grid-cols-2">
           <Field id="field-port" label={contactContent.fields.port} chevron>
-            <select id="field-port" name="port" className="field__input" defaultValue="">
+            <select key={`port-${prefill.port}`} id="field-port" name="port" className="field__input" defaultValue={prefill.port}>
               <option value="">Select a port</option>
               {contactContent.ports.map((port) => (
                 <option key={port} value={port}>
@@ -78,7 +87,7 @@ export function ContactForm() {
               ))}
             </select>
           </Field>
-          <TextField id="field-arrival" name="arrival" type="date" label={contactContent.fields.arrival} autoComplete="off" />
+          <TextField key={`arrival-${prefill.arrival}`} id="field-arrival" name="arrival" type="date" label={contactContent.fields.arrival} autoComplete="off" defaultValue={prefill.arrival} />
         </div>
         <fieldset className="field field--light">
           <legend className="field__head w-full">
@@ -149,6 +158,7 @@ function TextField({
   required,
   autoComplete,
   error,
+  defaultValue,
 }: {
   id: string;
   name: string;
@@ -157,6 +167,7 @@ function TextField({
   required?: boolean;
   autoComplete?: string;
   error?: string;
+  defaultValue?: string;
 }) {
   return (
     <Field id={id} label={label} required={required} error={error}>
@@ -166,6 +177,7 @@ function TextField({
         type={type}
         required={required}
         autoComplete={autoComplete}
+        defaultValue={defaultValue}
         className="field__input"
         aria-invalid={!!error}
         aria-describedby={error ? `${id}-error` : undefined}

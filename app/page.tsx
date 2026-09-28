@@ -12,7 +12,6 @@ const PortCallSequence = dynamic(() =>
 const ServicesIndex = dynamic(() =>
   import("@/components/sections/ServicesIndex/ServicesIndex").then((mod) => mod.ServicesIndex),
 );
-const DuskBand = dynamic(() => import("@/components/sections/DuskBand").then((mod) => mod.DuskBand));
 
 const LazyNetwork = dynamic(() => import("@/components/sections/CoastNetwork/CoastNetwork").then((mod) => mod.CoastNetwork));
 const LazyVessels = dynamic(() => import("@/components/sections/VesselScale/VesselScale").then((mod) => mod.VesselScale));
@@ -34,7 +33,6 @@ export default function HomePage() {
       <LazyNetwork />
       <PeopleInterlude />
       <ContactSection />
-      <DuskBand />
     </>
   );
 }

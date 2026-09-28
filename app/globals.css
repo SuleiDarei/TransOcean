@@ -672,11 +672,16 @@ html[data-show-placeholders] [data-placeholder="true"] {
 }
 
 /* Coast map */
+/* Sea-area lettering, set wide the way charts do. Units are the map's viewBox. */
 .map-label {
   paint-order: stroke;
   stroke: #0f2a44;
-  stroke-width: 5px;
+  stroke-width: 6px;
   stroke-linejoin: round;
+  font-size: 24px;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-variation-settings: "wdth" 118, "wght" 500;
 }
 
 @keyframes pin-ring {
@@ -773,6 +778,73 @@ html[data-show-placeholders] [data-placeholder="true"] {
   height: 1px;
   background: var(--line);
   margin: 0 var(--margin) clamp(48px, 7vw, 96px);
+}
+
+/* Scope panel: a shallows-tinted depth area that groups a service's included work. */
+.scope {
+  background: var(--shallows);
+  padding: clamp(20px, 3vw, 40px);
+}
+
+.scope .included { border-top-color: rgba(13, 33, 54, 0.16); }
+.scope .included__row { border-bottom-color: rgba(13, 33, 54, 0.16); }
+.scope .included__row:last-child { border-bottom: 0; padding-bottom: 0.4rem; }
+
+/* Services page index: the current section carries a magenta leading bar. */
+.svc-index a {
+  display: block;
+  padding-block: 4px;
+  padding-inline-start: 12px;
+  border-inline-start: 2px solid transparent;
+  color: var(--slate);
+  transition: color 150ms, border-color 150ms;
+}
+
+.svc-index a:hover { color: var(--ink); }
+
+.svc-index a[aria-current="true"] {
+  color: var(--ink);
+  border-inline-start-color: var(--light);
+}
+
+.svc-jump {
+  border: 1px solid var(--rule-light);
+  background: var(--white);
+}
+
+.svc-jump summary {
+  padding: 14px 16px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.svc-jump summary::-webkit-details-marker { display: none; }
+
+.svc-jump summary::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  margin-inline-end: 4px;
+  transition: transform 150ms;
+}
+
+.svc-jump[open] summary::after { transform: rotate(-135deg); }
+
+.svc-jump__list {
+  display: grid;
+  padding: 0 16px 12px;
+}
+
+.svc-jump__list a {
+  display: block;
+  padding-block: 10px;
+  border-top: 1px solid var(--rule-light);
 }
 
 /* Included list: a plain list. What's included is not a sequence, so no numerals. */

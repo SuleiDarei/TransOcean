@@ -3,7 +3,7 @@
 import { countries, countryFlag, defaultCountry, type Country } from "@/lib/phone/countries";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 
-export function PhoneField() {
+export function PhoneField({ defaultValue }: { defaultValue?: string }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Country>(defaultCountry);
@@ -67,7 +67,7 @@ export function PhoneField() {
           +{selected.dial}
         </span>
       </button>
-      <input id="field-phone" name="phone" type="tel" autoComplete="tel-national" className="field__input phone__number" placeholder="XXXX XXXX" />
+      <input id="field-phone" name="phone" type="tel" autoComplete="tel-national" className="field__input phone__number" placeholder="XXXX XXXX" defaultValue={defaultValue} />
       {open ? (
         <div id={menuId} className="phone__menu">
           <input

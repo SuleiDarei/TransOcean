@@ -2,6 +2,7 @@ import { ContactSection } from "@/components/sections/ContactSection/ContactSect
 import { HeroWaterline } from "@/components/sections/HeroWaterline";
 import { PeopleInterlude } from "@/components/sections/PeopleInterlude";
 import { Statement } from "@/components/sections/Statement";
+import { VoyageNav } from "@/components/sections/VoyageNav";
 import { seo } from "@/content/seo";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
@@ -26,10 +27,11 @@ export default function HomePage() {
   return (
     <>
       <HeroWaterline />
+      <VoyageNav />
       <Statement />
       <PortCallSequence />
       <ServicesIndex />
-      <LazyVessels />
+      <LazyVessels cinematic />
       <LazyNetwork />
       <PeopleInterlude />
       <ContactSection />

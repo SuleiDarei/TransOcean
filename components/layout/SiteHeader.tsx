@@ -1,5 +1,7 @@
 "use client";
 
+import { useMotionSafe } from "@/lib/hooks/useMotionSafe";
+
 import { contactLink, navigation } from "@/content/navigation";
 import { cn } from "@/lib/cn";
 import { useScrollDirection } from "@/lib/hooks/useScrollDirection";
@@ -7,6 +9,7 @@ import { Button } from "@/components/primitives/Button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { m, useScroll } from "framer-motion";
 import { MenuButton } from "./MenuButton";
 import { MobileMenu } from "./MobileMenu";
 
@@ -14,6 +17,8 @@ export function SiteHeader() {
   const { direction, scrolled } = useScrollDirection();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const reduced = !useMotionSafe();
+  const { scrollYProgress } = useScroll();
   const hidden = scrolled && direction === "down" && !open;
   const compact = scrolled && !hidden;
 
@@ -21,13 +26,13 @@ export function SiteHeader() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 bg-water text-ink transition-transform duration-300 ease-standard",
-        hidden && "-translate-y-full",
+        hidden && "-translate-y-full focus-within:translate-y-0",
         compact && "border-b",
       )}
       style={{
         height: compact ? "var(--nav-h-compact)" : "var(--nav-h)",
         borderColor: compact ? "var(--rule-light)" : "transparent",
-        transitionDuration: hidden ? "300ms" : "200ms",
+        transitionDuration: reduced ? "0ms" : hidden ? "300ms" : "200ms",
       }}
     >
       <div className="mx-auto flex h-full w-full max-w-container items-center justify-between" style={{ paddingInline: "var(--margin)" }}>
@@ -58,6 +63,7 @@ export function SiteHeader() {
         <MenuButton open={open} onClick={() => setOpen((value) => !value)} controlsId="mobile-menu" />
       </div>
       <MobileMenu open={open} onClose={() => setOpen(false)} />
+      <m.div className="site-progress" aria-hidden="true" style={{ scaleX: scrollYProgress }} />
     </header>
   );
 }

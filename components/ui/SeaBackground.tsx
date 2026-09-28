@@ -1,14 +1,16 @@
 "use client";
 
+import { useMotionSafe } from "@/lib/hooks/useMotionSafe";
+
 import { useEffect, useRef } from "react";
 
-import { useReducedMotion } from "framer-motion";
+
 import { ChartField } from "./ChartField";
 
 type Props = { variant?: "deep" | "night"; calm?: boolean; coast?: boolean };
 
 export function SeaBackground({ variant = "deep", calm = false, coast = false }: Props) {
-  const reduced = useReducedMotion() === true;
+  const reduced = !useMotionSafe();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

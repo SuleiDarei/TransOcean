@@ -2,12 +2,13 @@ import { homepage } from "@/content/homepage";
 import { ResponsiveImage } from "@/components/primitives/ResponsiveImage";
 import { Text } from "@/components/primitives/Type";
 import { Button } from "@/components/primitives/Button";
+import { ScrollFrame } from "@/components/motion/ScrollFrame";
 
 export function PeopleInterlude() {
   return (
     <section className="people-ship" aria-labelledby="people-title">
       <div className="people-ship__field" aria-hidden="true">
-        <ResponsiveImage id="GM-17" sizes="100vw" decorative />
+        <ScrollFrame><ResponsiveImage id="GM-17" sizes="100vw" decorative /></ScrollFrame>
       </div>
       <div className="people-copy">
         <div className="people-copy__block text-water">

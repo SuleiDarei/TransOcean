@@ -1,9 +1,11 @@
 "use client";
 
+import { useMotionSafe } from "@/lib/hooks/useMotionSafe";
+
 import { homepage } from "@/content/homepage";
 import { SeaBackground } from "@/components/ui/SeaBackground";
 import { phProps } from "@/lib/phProps";
-import { m, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { m, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
 
 const easeOut = [0.2, 0.7, 0.1, 1] as const;
@@ -22,7 +24,7 @@ function Word({ p, i, n, children }: { p: MotionValue<number>; i: number; n: num
 
 function OrderStatement({ text }: { text: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
-  const reduce = useReducedMotion() === true;
+  const reduce = !useMotionSafe();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.55"] });
   const words = text.split(" ");
 
@@ -45,7 +47,7 @@ function OrderStatement({ text }: { text: string }) {
 }
 
 export function Statement() {
-  const reduced = useReducedMotion() === true;
+  const reduced = !useMotionSafe();
   const [statement, caption] = homepage.statement.paragraphs;
 
   return (

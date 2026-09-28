@@ -32,7 +32,7 @@
   --space-section: clamp(96px, 11vw, 192px);
   --nav-h: 88px;
   --nav-h-compact: 64px;
-  --wl-rest: 47svh;
+  --wl-rest: 56svh;
   --ease-arrive: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
@@ -51,14 +51,14 @@
 
 @media (max-width: 767px) {
   :root {
-    --wl-rest: 44svh;
+    --wl-rest: 36svh;
     --nav-h: 64px;
   }
 }
 
 @media (orientation: portrait) and (max-width: 1023px) {
   :root {
-    --wl-rest: 44svh;
+    --wl-rest: 36svh;
   }
 }
 
@@ -449,11 +449,11 @@ html[data-show-placeholders] [data-placeholder="true"] {
 
 /* Hero waterline */
 .wl {
-  height: 132svh;
+  height: 165svh;
   background: var(--water);
 }
 
-.wl--portrait { height: 118svh; }
+.wl--portrait { height: 125svh; }
 
 .wl[data-still="true"] { height: 100svh; }
 
@@ -467,11 +467,14 @@ html[data-show-placeholders] [data-placeholder="true"] {
   --lift: 0%;
   --veil: 0;
   --head: 1;
-  --sub: 0;
+  --sub: 1;
   --suby: 0px;
   --depth: 0px;
   --nudge-x: 0px;
   --nudge-y: 0px;
+  --camera: 1;
+  --title-x: 0px;
+  --title-y: 0px;
   perspective: 1400px;
 }
 
@@ -492,7 +495,7 @@ html[data-show-placeholders] [data-placeholder="true"] {
 .wl__sea-inner {
   position: absolute;
   inset: 0;
-  transform: translateY(calc(-1 * var(--wl))) translateY(var(--lift)) translate3d(var(--nudge-x), var(--nudge-y), var(--depth));
+  transform: translateY(calc(-1 * var(--wl))) translateY(var(--lift)) translate3d(var(--nudge-x), var(--nudge-y), var(--depth)) scale(var(--camera));
 }
 
 .wl__media {
@@ -562,6 +565,8 @@ html[data-show-placeholders] [data-placeholder="true"] {
 .wl__title--lime { color: var(--water); }
 
 .wl__line { display: block; }
+.wl__line:first-child { transform: translateY(var(--title-y)); }
+.wl__line:last-child { transform: translate(var(--title-x), var(--title-y)); }
 
 .wl__aside,
 .wl__dock {
@@ -572,15 +577,15 @@ html[data-show-placeholders] [data-placeholder="true"] {
 .wl__aside {
   position: absolute;
   z-index: 4;
-  bottom: calc(100% - var(--wl-rest) + 28px);
+  top: calc(var(--nav-h) + 32px);
   left: max(calc(var(--margin) + 58%), calc(var(--margin) + 7.4em));
   width: min(32ch, 28vw);
 }
 
 .wl__lead {
-  margin: 0 0 28px;
+  margin: 0 0 20px;
   max-width: 32ch;
-  font-size: clamp(18px, 1.5vw, 22px);
+  font-size: clamp(16px, 1.4vw, 22px);
   line-height: 1.5;
   color: var(--ink);
 }
@@ -588,13 +593,13 @@ html[data-show-placeholders] [data-placeholder="true"] {
 .wl__dock { display: none; }
 
 .wl--portrait .wl__title {
-  top: calc(var(--nav-h) + 20px);
+  top: calc(var(--wl-rest) - 1.3em);
   width: min(8em, calc(100% - (var(--margin) * 2)));
-  font-size: clamp(42px, 11vw, 68px);
+  font-size: clamp(64px, 22vw, 136px);
 }
 
 .wl--portrait .wl__aside {
-  top: calc(var(--wl-rest) + 20px);
+  top: calc(var(--wl-rest) + 88px);
   bottom: auto;
   left: var(--margin);
   width: auto;
@@ -1010,6 +1015,7 @@ html[data-show-placeholders] [data-placeholder="true"] {
 
 /* Form fields: shallows-tinted, no decoration. Focus is the accent. */
 .field {
+  min-width: 0;
   --f-bg: rgba(216, 230, 236, 0.55);
   --f-bg-focus: #ffffff;
   --f-border: transparent;
@@ -1530,4 +1536,87 @@ select.field__input { padding-right: 2.5rem; }
   .chart__current--move,
   .coast-bath--move { animation: none; }
   .chart__contours { transform: none; }
+}
+
+/* The voyage: native scroll supplies the timeline; nothing intercepts the wheel. */
+html { scroll-padding-top: calc(var(--nav-h) + 24px); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+.scroll-frame { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.scroll-frame__image { width: 100%; height: 100%; }
+.wl__bottom { position: absolute; inset: auto var(--margin) 24px; z-index: 5; display: flex; justify-content: space-between; align-items: center; color: white; }
+.wl__explore, .wl__playback { display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 44px; padding: 0 16px; background: rgba(13,33,54,.8); border: 1px solid rgba(255,255,255,.3); }
+.wl__playback { cursor: pointer; }
+.wl__explore:hover, .wl__playback:hover { background: var(--ink); }
+.wl--portrait .wl__bottom { bottom: 104px; }
+.voyage-nav { display: grid; grid-template-columns: repeat(4,1fr); padding: 0 var(--margin); background: var(--ink); color: var(--water); }
+.voyage-nav__link { display: flex; gap: 20px; justify-content: space-between; align-items: center; min-height: 88px; padding: 20px 24px; border-bottom: 1px solid var(--rule-dark); }
+.voyage-nav__link:hover { color: var(--light-on-dark); }
+.voyage-nav__link + .voyage-nav__link { border-left: 1px solid var(--rule-dark); }
+.port-story { padding-block: var(--space-section); background: var(--water); }
+.port-story__heading { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 80px; }
+.port-story__body { display: grid; position: relative; grid-template-columns: 52% 8% 40%; align-items: start; }
+.port-story__cinema { position: sticky; top: var(--nav-h-compact); }
+.port-story__screen { position: relative; overflow: hidden; height: calc(100svh - var(--nav-h-compact) - 24px); min-height: 420px; background: var(--ink); }
+.port-story__image { position: absolute; inset: 0; overflow: hidden; }
+.port-story__caption { position: absolute; z-index: 10; inset: auto 0 0; display: flex; justify-content: space-between; padding: 72px 32px 28px; color: white; background: linear-gradient(transparent,rgba(13,33,54,.88)); }
+.port-story__progress { position: absolute; z-index: 11; bottom: 0; left: 0; height: 3px; width: 100%; transform-origin: left; background: var(--light-on-dark); }
+.port-story__nav { position: sticky; top: calc(var(--nav-h-compact) + 80px); display: flex; align-items: center; flex-direction: column; gap: 20px; padding-block: 24px; }
+.port-story__stop { position: relative; display: grid; place-items: center; min-width: 44px; min-height: 44px; border: 1px solid var(--rule-light); border-radius: 50%; color: var(--slate); }
+.port-story__stop:not(:last-child)::after { content: ''; position: absolute; top: 100%; height: 21px; width: 1px; background: var(--rule-light); }
+.port-story__stop[aria-current] { background: var(--ink); color: var(--water); border-color: var(--ink); }
+.port-story__stop-name { position: absolute; left: calc(100% + 10px); background: var(--ink); color: var(--water); padding: 10px 14px; width: max-content; max-width: 180px; opacity: 0; pointer-events: none; z-index: 12; }
+.port-story__stop:hover .port-story__stop-name, .port-story__stop:focus-visible .port-story__stop-name { opacity: 1; }
+.port-story__stage { min-height: 85svh; display: flex; flex-direction: column; justify-content: center; padding: 64px var(--margin) 64px 16px; scroll-margin-top: 24px; }
+.port-story__number { display: flex; align-items: baseline; gap: 12px; color: var(--slate); }
+.port-story__number > span:first-child { font-size: clamp(3rem,5vw,6rem); line-height: 1; color: var(--light-on-light); font-variation-settings: 'wdth' 75, 'wght' 500; }
+.port-story__mobile-image { display: none; }
+.service-row__arrow { display: inline-block; margin-left: 12px; vertical-align: middle; opacity: 0; transform: translateX(-8px); transition: opacity 200ms, transform 300ms; }
+.service-row:hover .service-row__arrow, .service-row:focus-visible .service-row__arrow { opacity: 1; transform: none; }
+.service-row:focus-visible { outline-offset: 6px; }
+.vessels__controls { display: flex; gap: 8px; }
+.vessels[data-pinned='true'] { padding-block: 0; position: relative; }
+.vessels[data-pinned='true'] .vessels__viewport { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; background: var(--water); }
+.vessels[data-pinned='true'] .vessels__rail { scroll-snap-type: none; }
+.vessels[data-pinned='true'] .vessels__head { margin-bottom: clamp(56px, 10svh, 120px); }
+.vessels[data-pinned='true'] .vessels__viewport::before { content: ''; position: absolute; inset: 50% 0 0; pointer-events: none; background-image: linear-gradient(rgba(46,95,134,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(46,95,134,.045) 1px, transparent 1px); background-size: 80px 80px; mask-image: linear-gradient(transparent,black,transparent); }
+.vessels[data-pinned='true'] .vessels__viewport > * { position: relative; }
+.vessels__control { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--rule-light); border-radius: 50%; }
+.vessels__control:hover { background: var(--shallows); }
+.vessels__control:disabled { opacity: .3; cursor: not-allowed; }
+.site-progress { position: absolute; bottom: 0; left: 0; height: 2px; width: 100%; background: var(--light); transform-origin: left; }
+.loc__drop[data-open='false'] { visibility: hidden; }
+.loc__drop[data-open='true'] { visibility: visible; }
+.coast-map { transform-origin: center; }
+.port-story[data-still='true'] .port-story__cinema { display: none; }
+.port-story[data-still='true'] .port-story__body { grid-template-columns: 80px 1fr; padding-inline: var(--margin); }
+.port-story[data-still='true'] .port-story__mobile-image { display: block; max-width: 700px; aspect-ratio: 16 / 9; margin-bottom: 32px; overflow: hidden; }
+.port-story[data-still='true'] .port-story__stage { min-height: 0; padding-block: 40px; }
+@media (max-width: 1023px) {
+  .voyage-nav { grid-template-columns: repeat(2,1fr); }
+  .voyage-nav__link { min-height: 64px; padding: 16px; }
+  .voyage-nav__link:nth-child(3) { border-left: 0; }
+  .port-story__heading { align-items: start; flex-direction: column; gap: 24px; margin-bottom: 40px; }
+  .port-story__body { display: block; }
+  .port-story__cinema { display: none; }
+  .port-story__nav { top: var(--nav-h-compact); z-index: 15; flex-direction: row; justify-content: space-between; padding: 12px var(--margin); gap: 2px; background: var(--water); border-block: 1px solid var(--rule-light); }
+  .port-story__stop:not(:last-child)::after { display: none; }
+  .port-story__stop-name { display: none; }
+  .port-story__stage { padding: 40px var(--margin) 56px; min-height: 0; scroll-margin-top: 86px; }
+  .port-story__mobile-image { display: block; aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 32px; }
+  .port-story__number > span:first-child { font-size: 3rem; }
+  .service-row__arrow { opacity: 1; transform: none; }
+}
+@media (max-height: 600px) and (min-width: 768px) and (orientation: landscape) {
+  .wl { height: 720px; }
+  .wl__sticky { position: relative; height: 720px; --wl: 380px !important; --wl-rest: 380px; --head: 1 !important; --sub: 1 !important; }
+  .port-story__screen { min-height: 0; }
+  .port-story__nav { top: 72px; gap: 4px; padding-block: 0; }
+  .port-story__stop:not(:last-child)::after { height: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: 0s !important; }
+  .port-story__cinema { display: none; }
+  .port-story__body { grid-template-columns: 80px 1fr; padding-inline: var(--margin); }
+  .port-story__mobile-image { display: block; max-width: 700px; aspect-ratio: 16 / 9; margin-bottom: 32px; overflow: hidden; }
+  .port-story__stage { min-height: 0; padding-block: 40px; }
 }

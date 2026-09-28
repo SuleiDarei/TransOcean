@@ -6,6 +6,7 @@ import { services } from "@/content/services";
 import { Button } from "@/components/primitives/Button";
 import { Field } from "@/components/ui/Field";
 import { PhoneField } from "@/components/ui/PhoneField";
+import { enquiryPrefill } from "@/lib/validation/enquiryPrefill";
 import { useActionState, useEffect, useRef, useState } from "react";
 
 const initial: FormState = { status: "idle" };
@@ -16,19 +17,14 @@ export function ContactForm() {
   // not the build time of the prerendered page.
   const [startedAt, setStartedAt] = useState("");
   // Values carried over from the enquiry strip's query string. Read on the client so the page stays static.
-  const [prefill, setPrefill] = useState({ vessel: "", port: "", arrival: "" });
+  const [prefill, setPrefill] = useState({ vessel: "", port: "", arrival: "", service: "" });
   const successRef = useRef<HTMLHeadingElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setStartedAt(String(Date.now()));
     const params = new URLSearchParams(window.location.search);
-    const port = params.get("port") ?? "";
-    setPrefill({
-      vessel: params.get("vessel") ?? "",
-      port: contactContent.ports.includes(port) ? port : "",
-      arrival: params.get("arrival") ?? "",
-    });
+    setPrefill(enquiryPrefill(params));
   }, []);
 
   useEffect(() => {
@@ -48,9 +44,12 @@ export function ContactForm() {
   }
 
   const errors = state.status === "error" ? state.fieldErrors : undefined;
+  const values = state.values;
 
   return (
-    <form action={action} noValidate>
+    // Returned values become the defaults before React resets the form after an
+    // action, preserving entries on validation, rate-limit, and delivery failures.
+    <form action={action} noValidate aria-busy={pending}>
       {state.status === "error" && state.message ? (
         <div ref={summaryRef} tabIndex={-1} className="t-small mb-6 text-signal outline-none" role="alert">
           <p>{state.message}</p>
@@ -66,19 +65,19 @@ export function ContactForm() {
         </div>
       ) : null}
 
-      <div className="grid gap-5">
-        <div className="grid gap-5 sm:grid-cols-2">
-          <TextField id="field-name" name="name" label={contactContent.fields.name} required autoComplete="name" error={errors?.name} />
-          <TextField id="field-company" name="company" label={contactContent.fields.company} autoComplete="organization" />
+      <div className="grid grid-cols-1 gap-5">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <TextField id="field-name" name="name" label={contactContent.fields.name} required autoComplete="name" error={errors?.name} defaultValue={values?.name} />
+          <TextField id="field-company" name="company" label={contactContent.fields.company} autoComplete="organization" defaultValue={values?.company} />
         </div>
-        <TextField id="field-email" name="email" type="email" label={contactContent.fields.email} required autoComplete="email" error={errors?.email} />
+        <TextField id="field-email" name="email" type="email" label={contactContent.fields.email} required autoComplete="email" error={errors?.email} defaultValue={values?.email} />
         <Field id="field-phone" label={contactContent.fields.phone}>
-          <PhoneField />
+          <PhoneField defaultValue={values?.phone} />
         </Field>
-        <TextField key={`vessel-${prefill.vessel}`} id="field-vessel" name="vessel" label={contactContent.fields.vessel} autoComplete="off" defaultValue={prefill.vessel} />
-        <div className="grid gap-5 sm:grid-cols-2">
+        <TextField key={`vessel-${prefill.vessel}`} id="field-vessel" name="vessel" label={contactContent.fields.vessel} autoComplete="off" defaultValue={values?.vessel ?? prefill.vessel} />
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Field id="field-port" label={contactContent.fields.port} chevron>
-            <select key={`port-${prefill.port}`} id="field-port" name="port" className="field__input" defaultValue={prefill.port}>
+            <select key={`port-${values?.port ?? prefill.port}`} id="field-port" name="port" className="field__input" defaultValue={values?.port ?? prefill.port}>
               <option value="">Select a port</option>
               {contactContent.ports.map((port) => (
                 <option key={port} value={port}>
@@ -87,15 +86,15 @@ export function ContactForm() {
               ))}
             </select>
           </Field>
-          <TextField key={`arrival-${prefill.arrival}`} id="field-arrival" name="arrival" type="date" label={contactContent.fields.arrival} autoComplete="off" defaultValue={prefill.arrival} />
+          <TextField key={`arrival-${prefill.arrival}`} id="field-arrival" name="arrival" type="date" label={contactContent.fields.arrival} autoComplete="off" defaultValue={values?.arrival ?? prefill.arrival} />
         </div>
         <fieldset className="field field--light">
           <legend className="field__head w-full">
             <span className="field__legend">{contactContent.fields.services}</span>
           </legend>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {services.map((service) => (
-              <CheckOption key={service.slug} id={`field-service-${service.slug}`} name="services" value={service.name}>
+              <CheckOption key={`${service.slug}-${prefill.service}`} id={`field-service-${service.slug}`} name="services" value={service.name} defaultChecked={values ? values.services.includes(service.name) : prefill.service === service.name}>
                 <span className="flex-1">{service.name}</span>
               </CheckOption>
             ))}
@@ -105,6 +104,7 @@ export function ContactForm() {
           <textarea
             id="field-message"
             name="message"
+            defaultValue={values?.message}
             required
             rows={5}
             className="field__input"
@@ -116,6 +116,7 @@ export function ContactForm() {
           <CheckOption
             id="field-consent"
             name="consent"
+            defaultChecked={values?.consent}
             value="on"
             required
             invalid={!!errors?.consent}
@@ -193,6 +194,7 @@ function CheckOption({
   required,
   invalid,
   describedBy,
+  defaultChecked,
   children,
 }: {
   id: string;
@@ -201,6 +203,7 @@ function CheckOption({
   required?: boolean;
   invalid?: boolean;
   describedBy?: string;
+  defaultChecked?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -209,6 +212,7 @@ function CheckOption({
         <input
           id={id}
           type="checkbox"
+          defaultChecked={defaultChecked}
           name={name}
           value={value}
           required={required}

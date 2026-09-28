@@ -1,5 +1,7 @@
 "use client";
 
+import { useMotionSafe } from "@/lib/hooks/useMotionSafe";
+
 import { homepage } from "@/content/homepage";
 import { locations } from "@/content/network";
 import { services } from "@/content/services";
@@ -9,8 +11,8 @@ import { Display, Text } from "@/components/primitives/Type";
 import { SeaBackground } from "@/components/ui/SeaBackground";
 import { phProps } from "@/lib/phProps";
 import { omanMap } from "@/lib/network/oman";
-import { useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { m, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 function serviceNames(slugs: string[]): string[] {
   return slugs.map((slug) => services.find((service) => service.slug === slug)?.name).filter((name): name is string => Boolean(name));
@@ -29,24 +31,34 @@ export function CoastNetwork({
 }) {
   const [selectedId, setSelectedId] = useState("");
   const [previewId, setPreviewId] = useState<string | null>(null);
-  const reduced = useReducedMotion() === true;
+  const reduced = !useMotionSafe();
+  const mapRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: mapRef, offset: ["start end", "center center"] });
+  const mapScale = useTransform(scrollYProgress, [0, 1], [0.9, 1]);
+  const mapRotate = useTransform(scrollYProgress, [0, 1], [-4, 0]);
   const selected = locations.find((location) => location.id === selectedId) ?? null;
   const showFootnote = locations.some((location) => location.meta.placeholder);
 
   useEffect(() => {
-    const id = window.location.hash.replace("#loc-", "");
-    if (locations.some((location) => location.id === id)) setSelectedId(id);
+    const syncHash = () => {
+      const id = window.location.hash.replace("#loc-", "");
+      if (locations.some((location) => location.id === id)) setSelectedId(id);
+    };
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
   }, []);
 
   function select(id: string) {
     const next = selectedId === id ? "" : id;
     setSelectedId(next);
     const hash = next ? `#loc-${next}` : "";
-    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}${hash}`);
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${window.location.search}${hash}`);
   }
 
   return (
     <section
+      id="coast"
       className={embedded ? "relative text-water" : "surface-ink relative isolate overflow-hidden bg-ink text-water"}
       style={embedded ? undefined : { paddingBlock: 160 }}
       aria-labelledby="coast-title"
@@ -65,9 +77,9 @@ export function CoastNetwork({
         </Grid>
 
         <div className="mt-16 lg:grid lg:grid-cols-12" style={{ columnGap: "var(--gutter)" }}>
-          <div className="lg:col-span-8">
+          <div ref={mapRef} className="lg:col-span-8">
             {/* role="group", not "img": the markers inside are interactive. */}
-            <svg viewBox={omanMap.viewBox} className="h-auto max-h-[70svh] w-full lg:max-h-[80svh]" role="group" aria-labelledby="coast-map-title">
+            <m.svg viewBox={omanMap.viewBox} className="coast-map h-auto max-h-[70svh] w-full lg:max-h-[80svh]" style={reduced ? undefined : { scale: mapScale, rotate: mapRotate }} role="group" aria-labelledby="coast-map-title">
               <title id="coast-map-title">Map of Oman&apos;s coastline with sample operating locations</title>
               <defs>
                 <linearGradient id="land-fill" x1="0" y1="0" x2="0" y2="1">
@@ -184,7 +196,7 @@ export function CoastNetwork({
                   );
                 })}
               </g>
-            </svg>
+            </m.svg>
             {showFootnote ? (
               <p className="t-small mt-6 max-w-measure text-[color:var(--on-dark-2)]" data-placeholder="true">
                 {homepage.network.footnote}
@@ -202,6 +214,7 @@ export function CoastNetwork({
                       type="button"
                       className="loc"
                       aria-expanded={on}
+                      aria-controls={`location-${location.id}`}
                       onClick={() => select(location.id)}
                       onMouseEnter={() => setPreviewId(location.id)}
                       onMouseLeave={() => setPreviewId(null)}
@@ -210,7 +223,7 @@ export function CoastNetwork({
                     >
                       <span className="loc__name">{location.name}</span>
                     </button>
-                    <div className="loc__drop" data-open={on ? "true" : "false"}>
+                    <div id={`location-${location.id}`} className="loc__drop" inert={!on} data-open={on ? "true" : "false"}>
                       <div className="loc__drop-inner" {...phProps(location.meta)}>
                         {location.meta.placeholder ? (
                           <p className="t-label" style={{ color: "var(--light-on-dark)" }}>

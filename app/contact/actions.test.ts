@@ -63,6 +63,7 @@ describe("submitEnquiry", () => {
     const state = await submitEnquiry({ status: "idle" }, form({ ...base, name: "", email: "x", consent: "" }));
     expect(state.status).toBe("error");
     expect(Object.keys(state.fieldErrors ?? {}).sort()).toEqual(["consent", "email", "name"]);
+    expect(state.values).toMatchObject({ name: "", email: "x", message: base.message, consent: false });
   });
 
   it("silently accepts honeypot submissions without sending", async () => {
@@ -75,6 +76,7 @@ describe("submitEnquiry", () => {
     const state = await submitEnquiry({ status: "idle" }, form({ ...base, startedAt: String(Date.now()) }));
     expect(state.status).toBe("error");
     expect(state.fieldErrors).toBeUndefined();
+    expect(state.values).toMatchObject({ name: base.name, message: base.message });
   });
 
   it("skips the timing check when the client did not send a timestamp", async () => {
@@ -88,5 +90,6 @@ describe("submitEnquiry", () => {
     }
     const state = await submitEnquiry({ status: "idle" }, form(base));
     expect(state.status).toBe("error");
+    expect(state.values?.email).toBe(base.email);
   });
 });

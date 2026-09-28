@@ -1,8 +1,10 @@
 "use client";
 
+import { useMotionSafe } from "@/lib/hooks/useMotionSafe";
+
 import { company } from "@/content/company";
 import { contactLink, menuCopy, navigation } from "@/content/navigation";
-import { m, useReducedMotion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { MenuButton } from "./MenuButton";
@@ -15,7 +17,7 @@ const links = [
 
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = !useMotionSafe();
 
   // showModal() puts the dialog in the top layer, traps focus inside it, makes the
   // page behind inert, closes on Escape, and restores focus to the opener on close.

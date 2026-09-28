@@ -1,7 +1,9 @@
 "use client";
 
+import { useMotionSafe } from "@/lib/hooks/useMotionSafe";
+
 import { cn } from "@/lib/cn";
-import { m, useInView, useReducedMotion } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import { useRef } from "react";
 
 export function Uncover({
@@ -19,7 +21,7 @@ export function Uncover({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
-  const reduced = useReducedMotion();
+  const reduced = !useMotionSafe();
   const shown = reduced || !active ? true : inView;
   const hidden = from === "bottom" ? "100%" : "-100%";
 

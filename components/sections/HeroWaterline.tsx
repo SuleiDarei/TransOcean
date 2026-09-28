@@ -1,20 +1,22 @@
 "use client";
 
+import { useMotionSafe } from "@/lib/hooks/useMotionSafe";
+
 import { homepage } from "@/content/homepage";
 import { getMedia } from "@/content/media";
 import { Button } from "@/components/primitives/Button";
 import { easeMove } from "@/lib/easing";
 import { phProps } from "@/lib/phProps";
 import { usePortraitHero } from "@/lib/hooks/usePortraitHero";
-import { animate, m, useMotionValue, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { animate, m, useMotionValue, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const landscapeSources = [{ src: "/media/hero/gm-01.mp4", type: "video/mp4" }];
 const portraitSources = [{ src: "/media/hero/gm-02.mp4", type: "video/mp4" }];
 
 export function HeroWaterline() {
-  const reduced = useReducedMotion() === true;
+  const reduced = !useMotionSafe();
   const portrait = usePortraitHero();
   const poster = getMedia(portrait ? "GM-02S" : "GM-01S");
   const sources = portrait ? portraitSources : landscapeSources;
@@ -22,14 +24,16 @@ export function HeroWaterline() {
   const sectionRef = useRef<HTMLElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [mediaReady, setMediaReady] = useState(false);
+  const [paused, setPaused] = useState(false);
   const ended = useRef(false);
   const intersecting = useRef(true);
-  const load = useMotionValue(reduced ? 1 : 0);
+  const load = useMotionValue(1);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
-  const rest = portrait ? 44 : 47;
+  const rest = portrait ? 36 : 56;
 
   const wl = useTransform([load, scrollYProgress], ([opened, prog]) => {
     const fromLoad = 100 + (rest - 100) * Number(opened);
@@ -40,6 +44,9 @@ export function HeroWaterline() {
   const veil = useTransform(scrollYProgress, [0.62, 1], [0, 1]);
   const head = useTransform(scrollYProgress, [0.78, 1], [1, 0]);
   const depth = useTransform(scrollYProgress, [0.45, 1], ["0px", "-56px"]);
+  const camera = useTransform(scrollYProgress, [0, 0.8], [1.04, 1.16]);
+  const titleY = useTransform(scrollYProgress, [0, 1], ["0px", "-90px"]);
+  const titleX = useTransform(scrollYProgress, [0, 1], ["0px", "50px"]);
   const sub = useTransform([load, scrollYProgress], ([opened, prog]) => {
     const fadeIn = Math.min(1, Math.max(0, (Number(opened) - 0.7) / 0.3));
     const fadeOut = 1 - Math.min(1, Number(prog) / 0.25);
@@ -48,27 +55,34 @@ export function HeroWaterline() {
   const subY = useTransform(scrollYProgress, [0, 0.25], ["0px", "-24px"]);
 
   useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    setMediaReady(!connection?.saveData);
+  }, []);
+
+  useEffect(() => {
     if (reduced) {
       load.set(1);
       return;
     }
-    const controls = animate(load, 1, { duration: 1.2, delay: 0.25, ease: [0.16, 1, 0.3, 1] });
+    load.set(0);
+    const controls = animate(load, 1, { duration: 1.4, ease: [0.16, 1, 0.3, 1] });
     return () => controls.stop();
   }, [load, reduced]);
 
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || !mediaReady) return;
     const video = videoRef.current;
     const frame = frameRef.current;
     if (!video || !frame) return;
 
     const sync = () => {
-      if (ended.current || document.hidden || !intersecting.current) video.pause();
+      if (paused || ended.current || document.hidden || !intersecting.current) video.pause();
       else video.play().catch(() => undefined);
     };
     const onEnded = () => {
       ended.current = true;
       video.pause();
+      setPaused(true);
     };
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -89,6 +103,8 @@ export function HeroWaterline() {
       frame.style.setProperty("--nudge-y", `${y.toFixed(2)}px`);
     };
 
+    ended.current = false;
+    sync();
     io.observe(frame);
     frame.addEventListener("pointermove", onMove);
     return () => {
@@ -97,7 +113,7 @@ export function HeroWaterline() {
       frame.removeEventListener("pointermove", onMove);
       io.disconnect();
     };
-  }, [portrait, reduced]);
+  }, [portrait, reduced, mediaReady, paused]);
 
   const frameStyle = reduced
     ? undefined
@@ -109,6 +125,9 @@ export function HeroWaterline() {
         "--depth": depth,
         "--sub": sub,
         "--suby": subY,
+        "--camera": camera,
+        "--title-y": titleY,
+        "--title-x": titleX,
       } as React.CSSProperties);
 
   const title = (
@@ -136,12 +155,11 @@ export function HeroWaterline() {
               sizes="100vw"
               className="wl__media"
             />
-            {reduced ? null : (
+            {reduced || !mediaReady ? null : (
               <video
                 key={sources[0].src}
                 ref={videoRef}
                 className="wl__media"
-                autoPlay
                 muted
                 playsInline
                 preload="metadata"
@@ -158,17 +176,17 @@ export function HeroWaterline() {
         </div>
         <div className="wl__veil" aria-hidden="true" />
         <div className="wl__ink">
-          <h1 className="wl__title" {...phProps(homepage.hero.meta)}>
+          <h1 className="t-display-xxl wl__title" {...phProps(homepage.hero.meta)}>
             {title}
           </h1>
         </div>
         <div className="wl__lime" aria-hidden="true">
           <div className="wl__lime-inner">
-            <p className="wl__title wl__title--lime">{title}</p>
+            <p className="t-display-xxl wl__title wl__title--lime">{title}</p>
           </div>
         </div>
         <div className="wl__aside">
-          <p className="wl__lead" {...phProps(homepage.hero.meta)}>
+          <p className="t-lead wl__lead" {...phProps(homepage.hero.meta)}>
             {homepage.hero.subline}
           </p>
           {portrait ? null : (
@@ -182,6 +200,14 @@ export function HeroWaterline() {
             </Button>
           </div>
         ) : null}
+        <div className="wl__bottom">
+          <a href="#port-call" className="t-small wl__explore">Explore a port call <span aria-hidden="true">↓</span></a>
+          {!reduced && mediaReady ? (
+            <button type="button" className="t-small wl__playback" aria-pressed={paused} onClick={() => setPaused(!paused)}>
+              {paused ? "Play film" : "Pause film"}
+            </button>
+          ) : null}
+        </div>
       </m.div>
     </section>
   );

@@ -9,6 +9,11 @@ export type FormState = {
   status: "idle" | "success" | "error";
   message?: string;
   fieldErrors?: Partial<Record<"name" | "email" | "message" | "consent", string>>;
+  values?: {
+    name: string; company: string; email: string; phone: string;
+    vessel: string; port: string; arrival: string; message: string;
+    services: string[]; consent: boolean;
+  };
 };
 
 const fieldCopy = {
@@ -23,6 +28,18 @@ const MIN_FILL_MS = 3000;
 
 export async function submitEnquiry(_previous: FormState, formData: FormData): Promise<FormState> {
   const services = formData.getAll("services").map(String);
+  const values: NonNullable<FormState["values"]> = {
+    name: String(formData.get("name") ?? ""),
+    company: String(formData.get("company") ?? ""),
+    email: String(formData.get("email") ?? ""),
+    phone: String(formData.get("phone") ?? ""),
+    vessel: String(formData.get("vessel") ?? ""),
+    port: String(formData.get("port") ?? ""),
+    arrival: String(formData.get("arrival") ?? ""),
+    message: String(formData.get("message") ?? ""),
+    services,
+    consent: formData.get("consent") === "on",
+  };
   const localPhone = String(formData.get("phone") ?? "").trim();
   const dial = String(formData.get("dial") ?? "").replace(/^\+/, "");
   const phone = localPhone ? `+${dial} ${localPhone}` : "";
@@ -50,7 +67,7 @@ export async function submitEnquiry(_previous: FormState, formData: FormData): P
     if (Object.keys(fieldErrors).length === 0) {
       fieldErrors.message = contactContent.errors.message;
     }
-    return { status: "error", message: contactContent.errors.summary, fieldErrors };
+    return { status: "error", message: contactContent.errors.summary, fieldErrors, values };
   }
 
   const data = parsed.data;
@@ -60,13 +77,13 @@ export async function submitEnquiry(_previous: FormState, formData: FormData): P
 
   const started = Number(data.startedAt);
   if (Number.isFinite(started) && started > 0 && Date.now() - started < MIN_FILL_MS) {
-    return { status: "error", message: "Please wait a moment and send the enquiry again." };
+    return { status: "error", message: "Please wait a moment and send the enquiry again.", values };
   }
 
   const headerList = await headers();
   const ip = headerList.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
   if (!(await rateLimit(ip))) {
-    return { status: "error", message: contactContent.failure };
+    return { status: "error", message: contactContent.failure, values };
   }
 
   const body = [
@@ -84,7 +101,7 @@ export async function submitEnquiry(_previous: FormState, formData: FormData): P
     .join("\n");
 
   const sent = await sendMail(body, data.email);
-  if (!sent) return { status: "error", message: contactContent.failure };
+  if (!sent) return { status: "error", message: contactContent.failure, values };
   return { status: "success" };
 }
 

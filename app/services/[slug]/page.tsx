@@ -76,7 +76,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         </Container>
       </section>
       {service.layout === "scale" ? <VesselScale filter={scaleFilters[service.slug]} /> : null}
-      <EnquiryStrip />
+      <EnquiryStrip service={service.slug} />
     </>
   );
 }

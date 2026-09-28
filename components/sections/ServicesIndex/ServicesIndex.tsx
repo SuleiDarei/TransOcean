@@ -14,6 +14,9 @@ import { useState } from "react";
 
 export function ServicesIndex() {
   const [active, setActive] = useState(0);
+  // Dim the other rows only while the pointer is over the list. At rest every row
+  // keeps full contrast; `active` still drives the sticky preview image.
+  const [hovering, setHovering] = useState(false);
   const current = services[active];
 
   return (
@@ -31,9 +34,10 @@ export function ServicesIndex() {
         </Grid>
 
         <div className="mt-16 lg:grid lg:grid-cols-12" style={{ columnGap: "var(--gutter)" }}>
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-8" onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
             {services.map((service, index) => {
               const isActive = index === active;
+              const dimmed = hovering && !isActive;
               return (
                 <Link
                   key={service.slug}
@@ -47,10 +51,10 @@ export function ServicesIndex() {
                   onFocus={() => setActive(index)}
                   {...phProps(service.meta)}
                 >
-                  <span className="t-service-name col-span-4 lg:col-span-5 max-lg:!opacity-100" style={{ opacity: isActive ? 1 : 0.45 }}>
+                  <span className="t-service-name col-span-4 lg:col-span-5 max-lg:!opacity-100" style={{ opacity: dimmed ? 0.45 : 1 }}>
                     {service.name}
                   </span>
-                  <span className="t-body col-span-3 text-slate lg:col-span-2 max-lg:!opacity-100" style={{ opacity: isActive ? 1 : 0.45 }}>
+                  <span className="t-body col-span-3 text-slate lg:col-span-2 max-lg:!opacity-100" style={{ opacity: dimmed ? 0.45 : 1 }}>
                     {service.descriptor}
                   </span>
                   <Icon

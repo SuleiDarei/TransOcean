@@ -17,10 +17,12 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
   const dialogRef = useRef<HTMLDialogElement>(null);
   const reduced = useReducedMotion();
 
+  // showModal() puts the dialog in the top layer, traps focus inside it, makes the
+  // page behind inert, closes on Escape, and restores focus to the opener on close.
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    if (open && !dialog.open) dialog.show();
+    if (open && !dialog.open) dialog.showModal();
     if (!open && dialog.open) dialog.close();
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -28,6 +30,8 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
     };
   }, [open]);
 
+  // Native dialogs close on Escape; keep an explicit handler for browsers that
+  // only honour Escape after a user gesture.
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
@@ -41,6 +45,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
     <dialog
       ref={dialogRef}
       id="mobile-menu"
+      aria-label={menuCopy.open}
       className="m-0 h-[100svh] max-h-none w-full max-w-none bg-limestone p-0 text-night backdrop:bg-transparent"
       onClose={onClose}
       onClick={(event) => {

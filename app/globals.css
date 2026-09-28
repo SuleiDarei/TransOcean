@@ -881,7 +881,7 @@ html[data-show-placeholders] [data-placeholder="true"] {
   font-variant-numeric: tabular-nums;
   font-size: 0.875rem;
   letter-spacing: 0.08em;
-  color: rgba(16, 22, 28, 0.55);
+  color: rgba(16, 22, 28, 0.7); /* 0.55 failed WCAG AA contrast on limestone */
   transition: color 250ms;
 }
 
@@ -1541,7 +1541,7 @@ select.field__input { padding-right: 2.5rem; }
   cursor: pointer;
 }
 
-.phone__option[aria-selected="true"] {
+.phone__option[aria-pressed="true"] {
   background: rgba(16, 22, 28, 0.06);
 }
 

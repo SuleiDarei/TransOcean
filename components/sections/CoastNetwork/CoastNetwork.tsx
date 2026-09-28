@@ -18,10 +18,12 @@ function serviceNames(slugs: string[]): string[] {
 
 export function CoastNetwork({
   heading = homepage.network.heading,
+  headingLevel = "h2",
   intro = homepage.network.intro,
   embedded = false,
 }: {
   heading?: string;
+  headingLevel?: "h1" | "h2";
   intro?: string;
   embedded?: boolean;
 }) {
@@ -53,7 +55,7 @@ export function CoastNetwork({
       <Container className="relative">
         <Grid className="items-end">
           <Col span={4} md={8} lg={7}>
-            <Display id="coast-title" as="h2" lines={[heading]} variant="l" meta={homepage.network.meta} />
+            <Display id="coast-title" as={headingLevel} lines={[heading]} variant="l" meta={homepage.network.meta} />
           </Col>
           <Col span={4} lg={4} lgStart={9} className="mt-8 lg:mt-0">
             <Text variant="lead" className="text-[color:var(--on-dark-2)]" meta={homepage.network.meta}>
@@ -64,7 +66,8 @@ export function CoastNetwork({
 
         <div className="mt-16 lg:grid lg:grid-cols-12" style={{ columnGap: "var(--gutter)" }}>
           <div className="lg:col-span-8">
-            <svg viewBox={omanMap.viewBox} className="h-auto max-h-[70svh] w-full lg:max-h-[80svh]" role="img" aria-labelledby="coast-map-title">
+            {/* role="group", not "img": the markers inside are interactive. */}
+            <svg viewBox={omanMap.viewBox} className="h-auto max-h-[70svh] w-full lg:max-h-[80svh]" role="group" aria-labelledby="coast-map-title">
               <title id="coast-map-title">Map of Oman&apos;s coastline with sample operating locations</title>
               <defs>
                 <linearGradient id="land-fill" x1="0" y1="0" x2="0" y2="1">

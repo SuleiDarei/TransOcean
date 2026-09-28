@@ -10,7 +10,7 @@ export default function ContactPage() {
   return (
     <>
       <div className="pt-8">
-        <ContactSection urgent />
+        <ContactSection urgent heading="h1" />
       </div>
       <DuskBand />
     </>

@@ -16,7 +16,7 @@ export default function NetworkPage() {
       <section className="network-field relative isolate overflow-hidden bg-deep pt-[var(--nav-h)] text-limestone">
         <SeaBackground variant="deep" coast />
         <div className="relative pb-8 pt-16">
-          <CoastNetwork embedded heading={networkPage.heading} intro={homepage.network.intro} />
+          <CoastNetwork embedded headingLevel="h1" heading={networkPage.heading} intro={homepage.network.intro} />
         </div>
         <Container className="relative pb-24">
           <div className="grid gap-10 md:grid-cols-3">

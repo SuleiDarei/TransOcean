@@ -8,7 +8,8 @@ export function PhoneField() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Country>(defaultCountry);
   const rootRef = useRef<HTMLDivElement>(null);
-  const searchId = useId();
+  const prefixRef = useRef<HTMLButtonElement>(null);
+  const menuId = useId();
 
   const matches = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -27,7 +28,10 @@ export function PhoneField() {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     };
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        prefixRef.current?.focus();
+      }
     };
     document.addEventListener("pointerdown", onPointer);
     document.addEventListener("keydown", onKey);
@@ -37,45 +41,52 @@ export function PhoneField() {
     };
   }, [open]);
 
+  function choose(country: Country) {
+    setSelected(country);
+    setOpen(false);
+    setQuery("");
+    prefixRef.current?.focus();
+  }
+
   return (
     <div ref={rootRef} className="phone">
       <input type="hidden" name="dial" value={selected.dial} />
       <button
+        ref={prefixRef}
         type="button"
         className="phone__prefix"
+        aria-label={`Country code, ${selected.name} +${selected.dial}`}
         aria-expanded={open}
-        aria-controls={searchId}
+        aria-controls={menuId}
         onClick={() => setOpen((value) => !value)}
       >
         <span className="phone__flag" aria-hidden="true">
           {countryFlag(selected.iso)}
         </span>
-        <span className="nums">+{selected.dial}</span>
+        <span className="nums" aria-hidden="true">
+          +{selected.dial}
+        </span>
       </button>
       <input id="field-phone" name="phone" type="tel" autoComplete="tel-national" className="field__input phone__number" placeholder="XXXX XXXX" />
       {open ? (
-        <div className="phone__menu">
+        <div id={menuId} className="phone__menu">
           <input
-            id={searchId}
             className="phone__search"
             value={query}
             placeholder="Search country"
+            aria-label="Search country"
             autoFocus
             onChange={(event) => setQuery(event.target.value)}
           />
-          <ul className="phone__list" role="listbox" aria-label="Country code">
+          {/* A plain list of buttons: Tab moves between options, Enter or Space picks one. */}
+          <ul className="phone__list" aria-label="Country code">
             {matches.map((country) => (
               <li key={country.iso}>
                 <button
                   type="button"
-                  role="option"
-                  aria-selected={country.iso === selected.iso}
+                  aria-pressed={country.iso === selected.iso}
                   className="phone__option"
-                  onClick={() => {
-                    setSelected(country);
-                    setOpen(false);
-                    setQuery("");
-                  }}
+                  onClick={() => choose(country)}
                 >
                   <span aria-hidden="true">{countryFlag(country.iso)}</span>
                   <span>{country.name}</span>

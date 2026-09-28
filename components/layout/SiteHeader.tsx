@@ -31,8 +31,8 @@ export function SiteHeader() {
       }}
     >
       <div className="mx-auto flex h-full w-full max-w-container items-center justify-between" style={{ paddingInline: "var(--margin)" }}>
-        <Link href="/" aria-label="TransOcean" className="wordmark">
-          TransOcean
+        <Link href="/" aria-label="Logo" className="wordmark">
+          Logo
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-10 lg:flex">

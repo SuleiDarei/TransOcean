@@ -1,20 +1,13 @@
 import { homepage } from "@/content/homepage";
+import { ResponsiveImage } from "@/components/primitives/ResponsiveImage";
 import { Text } from "@/components/primitives/Type";
 import { Button } from "@/components/primitives/Button";
-import Image from "next/image";
 
 export function PeopleInterlude() {
   return (
     <section className="people-ship" aria-labelledby="people-title">
       <div className="people-ship__field" aria-hidden="true">
-        <Image
-          src="/media/bands/gm-cta.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "center 78%" }}
-        />
+        <ResponsiveImage id="GM-17" sizes="100vw" decorative />
       </div>
       <div className="people-copy">
         <div className="people-copy__block text-water">

@@ -1,4 +1,4 @@
-import { CtaStrip } from "@/components/page/CtaStrip";
+import { EnquiryStrip } from "@/components/sections/EnquiryStrip";
 import { CoastNetwork } from "@/components/sections/CoastNetwork/CoastNetwork";
 import { Container } from "@/components/layout/Container";
 import { SeaBackground } from "@/components/ui/SeaBackground";
@@ -55,7 +55,7 @@ export default function NetworkPage() {
           </table>
         </Container>
       </section>
-      <CtaStrip />
+      <EnquiryStrip />
     </>
   );
 }

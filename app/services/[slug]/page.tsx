@@ -1,4 +1,4 @@
-import { CtaStrip } from "@/components/page/CtaStrip";
+import { EnquiryStrip } from "@/components/sections/EnquiryStrip";
 import { IncludedList } from "@/components/ui/IncludedList";
 import { PageHero } from "@/components/page/PageHero";
 import { SequenceLine } from "@/components/page/SequenceLine";
@@ -76,7 +76,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           </div>
         </Container>
       </section>
-      <CtaStrip />
+      <EnquiryStrip />
     </>
   );
 }

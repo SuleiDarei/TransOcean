@@ -1,5 +1,4 @@
 import { ContactSection } from "@/components/sections/ContactSection/ContactSection";
-import { DuskBand } from "@/components/sections/DuskBand";
 import { homepage } from "@/content/homepage";
 import { pageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
@@ -12,7 +11,6 @@ export default function ContactPage() {
       <div className="pt-8">
         <ContactSection urgent heading="h1" />
       </div>
-      <DuskBand />
     </>
   );
 }

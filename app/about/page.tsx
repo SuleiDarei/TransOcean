@@ -1,4 +1,4 @@
-import { CtaStrip } from "@/components/page/CtaStrip";
+import { EnquiryStrip } from "@/components/sections/EnquiryStrip";
 import { PageHero } from "@/components/page/PageHero";
 import { Container } from "@/components/layout/Container";
 import { Col, Grid } from "@/components/layout/Grid";
@@ -8,7 +8,7 @@ import { aboutContent } from "@/content/about";
 import { contentMode } from "@/content/meta";
 import { pageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
-import Image from "next/image";
+import { omanMap } from "@/lib/network/oman";
 
 export const metadata: Metadata = pageMetadata(
   aboutContent.lines.join(" "),
@@ -44,19 +44,17 @@ export default function AboutPage() {
           </div>
         </Container>
       </section>
-      <section className="coast-office text-water">
-        <div className="coast-office__field" aria-hidden="true">
-          <Image src="/media/bands/gm-cta.jpg" alt="" fill sizes="100vw" className="object-cover" style={{ objectPosition: "center 100%" }} />
-        </div>
+      <section className="coast-office">
+        <svg className="coast-office__map" viewBox={omanMap.viewBox} preserveAspectRatio="xMaxYMid meet" aria-hidden="true" focusable="false">
+          <path d={omanMap.land} />
+        </svg>
         <Container className="relative z-[1]">
           <Grid>
             <Col span={4} lg={6}>
               <h2 className="t-display-m">{aboutContent.oman.heading}</h2>
-              <p className="t-lead mt-6">{aboutContent.oman.body}</p>
+              <p className="t-lead mt-6 max-w-measure text-slate">{aboutContent.oman.body}</p>
               <div className="mt-8">
-                <Button href="/network" surface="dark">
-                  See where we work
-                </Button>
+                <Button href="/network">See where we work</Button>
               </div>
             </Col>
           </Grid>
@@ -71,7 +69,7 @@ export default function AboutPage() {
           </Container>
         </section>
       ) : null}
-      <CtaStrip />
+      <EnquiryStrip />
     </>
   );
 }

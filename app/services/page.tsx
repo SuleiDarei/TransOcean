@@ -1,4 +1,4 @@
-import { CtaStrip } from "@/components/page/CtaStrip";
+import { EnquiryStrip } from "@/components/sections/EnquiryStrip";
 import { PageHero } from "@/components/page/PageHero";
 import { ServicesStickyIndex } from "@/components/page/ServicesStickyIndex";
 import { Container } from "@/components/layout/Container";
@@ -43,7 +43,7 @@ export default function ServicesPage() {
         </Container>
       </section>
       <VesselScale />
-      <CtaStrip />
+      <EnquiryStrip />
     </>
   );
 }

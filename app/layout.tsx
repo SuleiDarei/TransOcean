@@ -8,6 +8,7 @@ import { SkipLink } from "@/components/layout/SkipLink";
 import { indexingBlocked, siteUrl } from "@/lib/metadata";
 import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main id="content">{children}</main>
           <SiteFooter />
         </MotionProvider>
+        <Analytics />
         {jsonLd ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} /> : null}
       </body>
     </html>

@@ -11,6 +11,7 @@
     "map:oman": "node scripts/build-oman-map.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.23.12",
     "next": "^15.5.3",
     "nodemailer": "^10.0.11",

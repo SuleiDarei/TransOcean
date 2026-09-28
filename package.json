@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "check:copy": "node scripts/check-copy.mjs",
     "map:oman": "node scripts/build-oman-map.mjs"
   },
@@ -20,6 +22,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
     "@types/node": "^22.17.2",
     "@types/nodemailer": "^8.0.2",
     "@types/react": "^19.1.12",
@@ -31,6 +34,10 @@
     "postcss": "^8.5.6",
     "sharp": "^0.34.3",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.7"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }

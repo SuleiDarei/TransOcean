@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+.DS_Store
+*.log
+.env
+.env.local
+.env*.local
+tsconfig.tsbuildinfo
+next-env.d.ts
+.vercel
+data/ne_10m*
+data/*.zip
+data/*.json
+data/*.geojson

@@ -1,0 +1,167 @@
+import { ph } from "./placeholder";
+import type { MediaAsset } from "./types";
+
+const generated = (
+  id: string,
+  file: string,
+  alt: string,
+  width: number,
+  height: number,
+  focal: { x: number; y: number },
+): MediaAsset => ({
+  id,
+  assetClass: "generated",
+  src: file,
+  alt,
+  width,
+  height,
+  focal,
+  placeholder: true,
+  replacementId: id.replace("GM-", "RP-"),
+  meta: ph(`Generated placeholder ${id}. Replace with approved photography ${id.replace("GM-", "RP-")}.`),
+});
+
+export const media: Record<string, MediaAsset> = {
+  "GM-01S": generated(
+    "GM-01S",
+    "/media/hero/gm-01.jpg",
+    "",
+    1920,
+    1080,
+    { x: 0.62, y: 0.55 },
+  ),
+  "GM-02S": generated(
+    "GM-02S",
+    "/media/hero/gm-02.jpg",
+    "",
+    1080,
+    1920,
+    { x: 0.5, y: 0.4 },
+  ),
+  "GM-05": generated(
+    "GM-05",
+    "/media/stages/gm-05.jpg",
+    "Merchant vessels at anchor off a hazy mountain coast at dawn.",
+    900,
+    1125,
+    { x: 0.5, y: 0.4 },
+  ),
+  "GM-06": generated(
+    "GM-06",
+    "/media/stages/gm-06.jpg",
+    "The bow of a tanker approaching a rock breakwater in early light.",
+    900,
+    1125,
+    { x: 0.55, y: 0.45 },
+  ),
+  "GM-07": generated(
+    "GM-07",
+    "/media/stages/gm-07.jpg",
+    "A pilot boat running alongside a cargo ship as a pilot climbs the ladder.",
+    900,
+    1125,
+    { x: 0.45, y: 0.5 },
+  ),
+  "GM-08": generated(
+    "GM-08",
+    "/media/stages/gm-08.jpg",
+    "Container cranes working a berthed ship under port floodlights at night.",
+    900,
+    1125,
+    { x: 0.5, y: 0.4 },
+  ),
+  "GM-09": generated(
+    "GM-09",
+    "/media/stages/gm-09.jpg",
+    "A port agent walking toward a ship's gangway at blue hour.",
+    900,
+    1125,
+    { x: 0.4, y: 0.7 },
+  ),
+  "GM-10": generated(
+    "GM-10",
+    "/media/stages/gm-10.jpg",
+    "Harbour tugs escorting a cargo ship out of port at dusk.",
+    900,
+    1125,
+    { x: 0.5, y: 0.45 },
+  ),
+  "GM-11": generated(
+    "GM-11",
+    "/media/services/gm-11.jpg",
+    "A general cargo ship berthed at a quay with mountains behind the port.",
+    1800,
+    1200,
+    { x: 0.5, y: 0.5 },
+  ),
+  "GM-12": generated(
+    "GM-12",
+    "/media/services/gm-12.jpg",
+    "A crew launch approaching the pilot ladder of a ship at anchor.",
+    1800,
+    1200,
+    { x: 0.5, y: 0.55 },
+  ),
+  "GM-13": generated(
+    "GM-13",
+    "/media/services/gm-13.jpg",
+    "Cranes discharging dry bulk from the open hatches of a bulk carrier.",
+    1800,
+    1200,
+    { x: 0.5, y: 0.45 },
+  ),
+  "GM-14": generated(
+    "GM-14",
+    "/media/services/gm-14.jpg",
+    "Hands exchanging a closed document folder at the top of a gangway.",
+    1800,
+    1200,
+    { x: 0.5, y: 0.5 },
+  ),
+  "GM-15": generated(
+    "GM-15",
+    "/media/services/gm-15.jpg",
+    "A deck crane lifting a strapped pallet of stores from the quay onto a ship.",
+    1800,
+    1200,
+    { x: 0.5, y: 0.45 },
+  ),
+  "GM-16": generated(
+    "GM-16",
+    "/media/services/gm-16.jpg",
+    "Steel pipes being loaded onto an offshore supply vessel at an industrial quay.",
+    1800,
+    1200,
+    { x: 0.5, y: 0.5 },
+  ),
+  "GM-17": generated(
+    "GM-17",
+    "/media/bands/gm-17.jpg",
+    "A mooring gang handling a heavy rope onto a bollard beneath a ship's hull.",
+    2100,
+    900,
+    { x: 0.28, y: 0.62 },
+  ),
+  "GM-18": generated(
+    "GM-18",
+    "/media/bands/gm-18.jpg",
+    "Dusk across harbour water toward port cranes and a dark mountain ridge.",
+    2100,
+    900,
+    { x: 0.5, y: 0.42 },
+  ),
+  "GM-19": generated(
+    "GM-19",
+    "/media/bands/gm-19.jpg",
+    "A port of cranes and a berthed ship set against steep mountains in haze.",
+    2100,
+    900,
+    { x: 0.5, y: 0.5 },
+  ),
+};
+
+export function getMedia(id: string): MediaAsset {
+  const asset = media[id];
+  if (!asset) throw new Error(`Missing media ${id}`);
+  return asset;
+}

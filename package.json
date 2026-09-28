@@ -1,0 +1,35 @@
+{
+  "name": "trans-ocean",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "check:copy": "node scripts/check-copy.mjs",
+    "map:oman": "node scripts/build-oman-map.mjs"
+  },
+  "dependencies": {
+    "framer-motion": "^12.23.12",
+    "next": "^15.5.3",
+    "nodemailer": "^10.0.11",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.17.2",
+    "@types/nodemailer": "^8.0.2",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.34.0",
+    "eslint-config-next": "^15.5.3",
+    "mapshaper": "^0.6.113",
+    "postcss": "^8.5.6",
+    "sharp": "^0.34.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.2"
+  }
+}

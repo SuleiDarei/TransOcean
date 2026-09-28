@@ -24,9 +24,6 @@ export function Field({ id, label, required, error, theme = "light", chevron, ch
             <path d="M1 1.5 L6 6.5 L11 1.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         ) : null}
-        <svg className="field__frame" aria-hidden="true" focusable="false">
-          <rect x="0" y="0" width="100%" height="100%" pathLength={1} />
-        </svg>
       </div>
       {error ? (
         <p className="field__msg" id={`${id}-error`} role="alert">

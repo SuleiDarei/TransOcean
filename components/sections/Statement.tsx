@@ -49,7 +49,7 @@ export function Statement() {
   const [statement, caption] = homepage.statement.paragraphs;
 
   return (
-    <section className="order text-limestone" aria-labelledby="statement-title">
+    <section className="order text-water" aria-labelledby="statement-title">
       <SeaBackground variant="night" />
       <div className="order__content" {...phProps(homepage.statement.meta)}>
         <h2 id="statement-title" className="sr-only">

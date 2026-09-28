@@ -13,7 +13,7 @@ export const metadata: Metadata = pageMetadata(networkPage.heading, homepage.net
 export default function NetworkPage() {
   return (
     <>
-      <section className="network-field relative isolate overflow-hidden bg-deep pt-[var(--nav-h)] text-limestone">
+      <section className="network-field relative isolate overflow-hidden bg-ink pt-[var(--nav-h)] text-water">
         <SeaBackground variant="deep" coast />
         <div className="relative pb-8 pt-16">
           <CoastNetwork embedded headingLevel="h1" heading={networkPage.heading} intro={homepage.network.intro} />

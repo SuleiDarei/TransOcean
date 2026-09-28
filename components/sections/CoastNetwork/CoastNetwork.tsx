@@ -47,7 +47,7 @@ export function CoastNetwork({
 
   return (
     <section
-      className={embedded ? "relative text-limestone" : "surface-deep relative isolate overflow-hidden bg-deep text-limestone"}
+      className={embedded ? "relative text-water" : "surface-ink relative isolate overflow-hidden bg-ink text-water"}
       style={embedded ? undefined : { paddingBlock: 160 }}
       aria-labelledby="coast-title"
     >
@@ -71,15 +71,15 @@ export function CoastNetwork({
               <title id="coast-map-title">Map of Oman&apos;s coastline with sample operating locations</title>
               <defs>
                 <linearGradient id="land-fill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#141D26" />
-                  <stop offset="100%" stopColor="#0E151C" />
+                  <stop offset="0%" stopColor="#E8DFC4" />
+                  <stop offset="100%" stopColor="#D9CFAE" />
                 </linearGradient>
               </defs>
               <mask id="coast-water">
                 <rect width="1000" height="1254.9" fill="#fff" />
                 <path d={omanMap.land} fill="#000" />
               </mask>
-              <g mask="url(#coast-water)" fill="none" stroke="#F6F4EF" strokeLinejoin="round">
+              <g mask="url(#coast-water)" fill="none" stroke="var(--water)" strokeLinejoin="round">
                 <path d={omanMap.land} strokeWidth="22" strokeOpacity="0.07" />
                 <path d={omanMap.land} strokeWidth="54" strokeOpacity="0.045" />
                 <path
@@ -93,7 +93,7 @@ export function CoastNetwork({
               <path
                 d={omanMap.land}
                 fill="none"
-                stroke="rgba(246,244,239,0.35)"
+                stroke="rgba(243, 245, 242,0.35)"
                 strokeWidth="1"
                 vectorEffect="non-scaling-stroke"
                 strokeLinejoin="round"
@@ -103,7 +103,7 @@ export function CoastNetwork({
                   key={selected.id}
                   d={omanMap.segments[selected.id as keyof typeof omanMap.segments]}
                   fill="none"
-                  stroke="#C97A2E"
+                  stroke="var(--light-on-dark)"
                   strokeWidth="3"
                   vectorEffect="non-scaling-stroke"
                   pathLength="1"
@@ -119,7 +119,7 @@ export function CoastNetwork({
                     key={label.id}
                     x={gulf ? label.x - 10 : label.x}
                     y={gulf ? label.y - 14 : label.y}
-                    fill="rgba(246,244,239,0.72)"
+                    fill="rgba(243, 245, 242,0.72)"
                     className="map-label t-label"
                     textAnchor={label.x > 750 ? "end" : "start"}
                   >
@@ -159,7 +159,7 @@ export function CoastNetwork({
                           width="10"
                           height="10"
                           fill="none"
-                          stroke="var(--amber-on-dark)"
+                          stroke="var(--light-on-dark)"
                           strokeWidth="1.5"
                         />
                       ) : null}
@@ -171,14 +171,14 @@ export function CoastNetwork({
                           width="10"
                           height="10"
                           fill="none"
-                          stroke="var(--amber-on-dark)"
+                          stroke="var(--light-on-dark)"
                           strokeWidth="1.5"
                         />
                       ) : null}
                       {on ? (
-                        <rect x={marker.x - 5} y={marker.y - 5} width="10" height="10" fill="#F6F4EF" />
+                        <rect x={marker.x - 5} y={marker.y - 5} width="10" height="10" fill="var(--water)" />
                       ) : (
-                        <rect x={marker.x - 3} y={marker.y - 3} width="6" height="6" fill="var(--amber-on-dark)" />
+                        <rect x={marker.x - 3} y={marker.y - 3} width="6" height="6" fill="var(--light-on-dark)" />
                       )}
                     </g>
                   );
@@ -208,19 +208,12 @@ export function CoastNetwork({
                       onFocus={() => setPreviewId(location.id)}
                       onBlur={() => setPreviewId(null)}
                     >
-                      <svg className="loc__svg" aria-hidden="true" focusable="false">
-                        <rect className="loc__frame" x="0" y="0" width="100%" height="100%" pathLength="1" />
-                        <rect className="loc__spark" x="0" y="0" width="100%" height="100%" pathLength="1" />
-                      </svg>
                       <span className="loc__name">{location.name}</span>
-                      <span className="loc__arrow" aria-hidden="true">
-                        →
-                      </span>
                     </button>
                     <div className="loc__drop" data-open={on ? "true" : "false"}>
                       <div className="loc__drop-inner" {...phProps(location.meta)}>
                         {location.meta.placeholder ? (
-                          <p className="t-label" style={{ color: "var(--amber-on-dark)" }}>
+                          <p className="t-label" style={{ color: "var(--light-on-dark)" }}>
                             {homepage.network.sampleLabel}
                           </p>
                         ) : null}

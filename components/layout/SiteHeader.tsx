@@ -20,7 +20,7 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 bg-limestone text-night transition-transform duration-300 ease-standard",
+        "fixed inset-x-0 top-0 z-50 bg-water text-ink transition-transform duration-300 ease-standard",
         hidden && "-translate-y-full",
         compact && "border-b",
       )}

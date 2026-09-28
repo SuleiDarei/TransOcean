@@ -46,13 +46,13 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
       ref={dialogRef}
       id="mobile-menu"
       aria-label={menuCopy.open}
-      className="m-0 h-[100svh] max-h-none w-full max-w-none bg-limestone p-0 text-night backdrop:bg-transparent"
+      className="m-0 h-[100svh] max-h-none w-full max-w-none bg-water p-0 text-ink backdrop:bg-transparent"
       onClose={onClose}
       onClick={(event) => {
         if (event.target === dialogRef.current) onClose();
       }}
     >
-      <div className="fixed inset-0 z-40 flex h-full flex-col bg-limestone" style={{ paddingInline: "var(--margin)", paddingTop: "var(--nav-h)" }}>
+      <div className="fixed inset-0 z-40 flex h-full flex-col bg-water" style={{ paddingInline: "var(--margin)", paddingTop: "var(--nav-h)" }}>
         <div className="absolute end-[var(--margin)] top-0 flex h-[var(--nav-h)] items-center">
           <MenuButton open onClick={onClose} controlsId="mobile-menu" />
         </div>

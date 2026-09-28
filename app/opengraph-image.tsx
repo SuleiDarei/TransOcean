@@ -13,14 +13,14 @@ export default function OpenGraphImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          background: "#F6F4EF",
+          background: "#F3F5F2",
           fontFamily: "Arial, sans-serif",
         }}
       >
-        <div style={{ display: "flex", flex: 1, alignItems: "flex-end", padding: "48px", fontSize: 92, color: "#10161C", letterSpacing: -2 }}>
+        <div style={{ display: "flex", flex: 1, alignItems: "flex-end", padding: "48px", fontSize: 92, color: "#0D2136", letterSpacing: -2 }}>
           Alongside
         </div>
-        <div style={{ display: "flex", height: "46%", background: "#0B2942", color: "#F6F4EF", padding: "36px 48px", fontSize: 92, letterSpacing: -2 }}>
+        <div style={{ display: "flex", height: "46%", background: "#0D2136", color: "#F3F5F2", padding: "36px 48px", fontSize: 92, letterSpacing: -2 }}>
           in Oman.
         </div>
       </div>

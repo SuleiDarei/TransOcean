@@ -17,11 +17,11 @@ export function PeopleInterlude() {
         />
       </div>
       <div className="people-copy">
-        <div className="people-copy__block text-limestone">
+        <div className="people-copy__block text-water">
           <h2 id="people-title" className="t-display-m" data-placeholder="true">
             {homepage.people.heading}
           </h2>
-          <Text variant="body" className="mt-6 text-limestone" meta={homepage.people.meta}>
+          <Text variant="body" className="mt-6 text-water" meta={homepage.people.meta}>
             {homepage.people.body}
           </Text>
           <div className="mt-8">

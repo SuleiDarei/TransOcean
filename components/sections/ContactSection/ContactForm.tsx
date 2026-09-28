@@ -134,7 +134,7 @@ export function ContactForm() {
       </div>
       <input type="hidden" name="startedAt" value={startedAt} readOnly />
 
-      <Button type="submit" disabled={pending} className="mt-8 w-full">
+      <Button type="submit" variant="primary" disabled={pending} className="mt-8 w-full">
         {pending ? contactContent.sending : contactContent.submit}
       </Button>
     </form>

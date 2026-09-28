@@ -22,7 +22,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHero lines={aboutContent.lines} meta={aboutContent.meta} imageId="GM-19" />
-      <section className="bg-limestone py-[var(--space-section)] text-night">
+      <section className="bg-water py-[var(--space-section)] text-ink">
         <Container>
           <Grid>
             <Col span={4} lg={6}>
@@ -44,7 +44,7 @@ export default function AboutPage() {
           </div>
         </Container>
       </section>
-      <section className="coast-office text-limestone">
+      <section className="coast-office text-water">
         <div className="coast-office__field" aria-hidden="true">
           <Image src="/media/bands/gm-cta.jpg" alt="" fill sizes="100vw" className="object-cover" style={{ objectPosition: "center 100%" }} />
         </div>
@@ -63,7 +63,7 @@ export default function AboutPage() {
         </Container>
       </section>
       {showWork ? (
-        <section className="bg-limestone py-24 text-night">
+        <section className="bg-water py-24 text-ink">
           <Container>
             <p className="t-body max-w-measure" data-placeholder="true">
               {aboutContent.work.body}

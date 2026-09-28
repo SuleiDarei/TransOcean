@@ -25,13 +25,13 @@ const config: Config = {
     },
     extend: {
       colors: {
-        limestone: "var(--limestone)",
-        night: "var(--night)",
-        deep: "var(--deep)",
+        water: "var(--water)",
+        shallows: "var(--shallows)",
+        land: "var(--land)",
+        ink: "var(--ink)",
         steel: "var(--steel)",
         slate: "var(--slate)",
-        sand: "var(--sand)",
-        sodium: "var(--sodium)",
+        light: "var(--light)",
         white: "var(--white)",
         signal: "var(--signal)",
       },

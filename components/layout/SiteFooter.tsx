@@ -7,8 +7,8 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
   return (
     <footer
-      className="surface-night relative isolate overflow-hidden bg-night text-limestone"
-      style={{ paddingTop: 96, paddingBottom: 48, background: "var(--night)" }}
+      className="surface-ink relative isolate overflow-hidden bg-ink text-water"
+      style={{ paddingTop: 96, paddingBottom: 48, background: "var(--ink)" }}
     >
       <SeaBackground variant="night" calm />
       <div className="relative mx-auto w-full max-w-container" style={{ paddingInline: "var(--margin)" }}>
@@ -59,7 +59,7 @@ function FooterGroup({ title, children, className }: { title: string; children: 
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="t-small inline-flex min-h-11 items-center text-limestone">
+    <Link href={href} className="t-small inline-flex min-h-11 items-center text-water">
       {children}
     </Link>
   );

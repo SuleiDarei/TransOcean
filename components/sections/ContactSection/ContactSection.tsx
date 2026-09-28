@@ -7,7 +7,7 @@ import { ContactForm } from "./ContactForm";
 
 export function ContactSection({ urgent = false, heading = "h2" }: { urgent?: boolean; heading?: "h1" | "h2" }) {
   return (
-    <section id="contact" className="contact-seam bg-limestone pt-40 text-night" aria-labelledby="contact-title">
+    <section id="contact" className="contact-seam bg-water pt-40 text-ink" aria-labelledby="contact-title">
       <Container>
         <Grid>
           <Col span={4} lg={6}>

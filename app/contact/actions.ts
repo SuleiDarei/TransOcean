@@ -18,6 +18,9 @@ const fieldCopy = {
   consent: contactContent.errors.consent,
 } as const;
 
+/** Submissions faster than this after the form mounted are treated as automated. */
+const MIN_FILL_MS = 3000;
+
 export async function submitEnquiry(_previous: FormState, formData: FormData): Promise<FormState> {
   const services = formData.getAll("services").map(String);
   const localPhone = String(formData.get("phone") ?? "").trim();
@@ -56,13 +59,13 @@ export async function submitEnquiry(_previous: FormState, formData: FormData): P
   }
 
   const started = Number(data.startedAt);
-  if (Number.isFinite(started) && Date.now() - started < 3000) {
+  if (Number.isFinite(started) && started > 0 && Date.now() - started < MIN_FILL_MS) {
     return { status: "error", message: "Please wait a moment and send the enquiry again." };
   }
 
   const headerList = await headers();
   const ip = headerList.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
-  if (!rateLimit(ip)) {
+  if (!(await rateLimit(ip))) {
     return { status: "error", message: contactContent.failure };
   }
 
@@ -87,7 +90,10 @@ export async function submitEnquiry(_previous: FormState, formData: FormData): P
 
 async function sendMail(body: string, replyTo: string): Promise<boolean> {
   if (!process.env.MAIL_HOST) {
-    if (process.env.NODE_ENV === "production") return false;
+    if (process.env.NODE_ENV === "production") {
+      console.error("[contact] MAIL_HOST is not set; enquiry rejected. Configure SMTP in the environment.");
+      return false;
+    }
     console.info("TODO(CLIENT): enquiry not emailed\n", body);
     return true;
   }

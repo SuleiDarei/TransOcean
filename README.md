@@ -45,7 +45,9 @@ All copy is client placeholder until approved. `scripts/CONTENT_SWAP.md` describ
 
 ## Contact form
 
-`app/contact/actions.ts` validates with `lib/validation/contactSchema.ts`, applies a honeypot and a per-IP rate limit, then sends mail through SMTP when `MAIL_HOST` is set. Without SMTP the enquiry is logged in development and rejected in production.
+`app/contact/actions.ts` validates with `lib/validation/contactSchema.ts`, applies a honeypot and a per-IP rate limit, then sends mail through SMTP when `MAIL_HOST` is set. Without SMTP the enquiry is logged in development and rejected in production with a server-side error.
+
+The rate limit uses Upstash Redis over REST when `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` are set. Otherwise it falls back to process memory, which on Vercel only covers one warm instance.
 
 ## Environment
 

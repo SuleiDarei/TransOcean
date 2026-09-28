@@ -2,7 +2,10 @@ import { contentMode, hasUnapprovedContent } from "@/content/meta";
 import type { Metadata } from "next";
 
 export function siteUrl(): string {
-  return process.env.SITE_URL ?? "http://localhost:3000";
+  if (process.env.SITE_URL) return process.env.SITE_URL;
+  // Vercel sets this on every deployment; it is the production domain, not the preview URL.
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  return "http://localhost:3000";
 }
 
 export function indexingBlocked(): boolean {

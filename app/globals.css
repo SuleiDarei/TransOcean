@@ -1107,7 +1107,8 @@ html[data-show-placeholders] [data-placeholder="true"] {
   margin-bottom: 8px;
 }
 
-.field__head label {
+.field__head label,
+.field__legend {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.12em;

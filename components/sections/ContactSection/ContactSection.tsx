@@ -6,7 +6,6 @@ import { Display, Label, Text } from "@/components/primitives/Type";
 import { ContactForm } from "./ContactForm";
 
 export function ContactSection({ urgent = false }: { urgent?: boolean }) {
-  const startedAt = String(Date.now());
   return (
     <section id="contact" className="contact-seam bg-limestone pt-40 text-night" aria-labelledby="contact-title">
       <Container>
@@ -33,7 +32,7 @@ export function ContactSection({ urgent = false }: { urgent?: boolean }) {
             </dl>
           </Col>
           <Col span={4} lg={5} lgStart={8} className="mt-12 lg:mt-0">
-            <ContactForm startedAt={startedAt} />
+            <ContactForm />
           </Col>
           <Col span={4} className="mt-16 lg:hidden">
             <dl className="grid gap-8">

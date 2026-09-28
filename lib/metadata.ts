@@ -19,7 +19,7 @@ export function pageMetadata(title: string, description: string, path: string): 
       title,
       description,
       url: path,
-      siteName: "Trans Ocean Maritime Services",
+      siteName: "Logo",
     },
   };
 }

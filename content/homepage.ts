@@ -11,7 +11,7 @@ export const homepage = {
   statement: {
     paragraphs: [
       "A vessel arrives with a schedule, a cargo and a crew. Ashore, the port authority, pilots, terminal, customs, immigration and suppliers must all move in the right order. The agent keeps that order.",
-      "Trans Ocean's work is to make it hold, from the first message to the last line cast off.",
+      "Logo's work is to make it hold, from the first message to the last line cast off.",
     ],
     meta: ph("Homepage statement"),
   },
@@ -44,7 +44,7 @@ export const homepage = {
   people: {
     heading: "The work is done by people who know the port.",
     body: "Boarding agents, operators and documentation staff who know each port's procedures, authorities and working hours. That knowledge is the service.",
-    link: "About Trans Ocean",
+    link: "About Logo",
     meta: ph("People interlude"),
   },
   contact: {

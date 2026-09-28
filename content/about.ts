@@ -2,7 +2,7 @@ import { ph } from "./placeholder";
 
 export const aboutContent = {
   lines: ["An agency built", "on the Omani coast."],
-  whatLead: "Trans Ocean acts for owners, operators and charterers whose vessels call at Oman's ports.",
+  whatLead: "Logo acts for owners, operators and charterers whose vessels call at Oman's ports.",
   whatBody:
     "We arrange what a call needs ashore: clearance, berth, pilotage, cargo coordination, crew matters, supplies and accounts, and we attend the vessel while it is alongside.",
   how: [

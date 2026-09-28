@@ -1,8 +1,8 @@
 import { ph } from "./placeholder";
 
 export const company = {
-  legalName: "Trans Ocean Maritime Services L.L.C",
-  shortName: "Trans Ocean",
+  legalName: "Logo L.L.C",
+  shortName: "Logo",
   country: "Sultanate of Oman",
   email: "operations@example.com",
   phone: "+968 XXXX XXXX",

@@ -1,8 +1,8 @@
 import { ph } from "./placeholder";
 
 export const seo = {
-  titleTemplate: "%s | Trans Ocean Maritime Services",
-  homeTitle: "Port agency in Oman | Trans Ocean Maritime Services",
+  titleTemplate: "%s | Logo",
+  homeTitle: "Port agency in Oman | Logo",
   homeDescription: "Port agency, husbandry and cargo coordination for vessels calling at Oman's ports.",
   notFound: {
     title: "Page not found.",

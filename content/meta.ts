@@ -70,7 +70,12 @@ export function placeholderWarnings(): string[] {
     .map((meta) => meta.note ?? "unspecified placeholder");
 }
 
+let logged = false;
+
+/** Logs once per process: once during `next build`, once per server start. */
 export function logPlaceholderWarnings(): void {
+  if (logged) return;
+  logged = true;
   const notes = Array.from(new Set(placeholderWarnings()));
   if (notes.length === 0) return;
   console.warn(`[content] ${notes.length} placeholder groups remain:`);

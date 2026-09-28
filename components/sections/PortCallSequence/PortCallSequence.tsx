@@ -19,6 +19,9 @@ export function PortCallSequence() {
   const stageRefs = useRef<Array<HTMLElement | null>>([]);
   const sectionRef = useRef<HTMLElement>(null);
   const { direction } = useScrollDirection();
+  // Mirror direction into a ref so the observer below is created once, not on every flip.
+  const directionRef = useRef(direction);
+  directionRef.current = direction;
   const reduced = useReducedMotion() === true;
 
   useEffect(() => {
@@ -30,14 +33,14 @@ export function PortCallSequence() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (!visible) return;
         const index = Number((visible.target as HTMLElement).dataset.index);
-        setFromTop(direction === "up");
+        setFromTop(directionRef.current === "up");
         setActive(index);
       },
       { rootMargin: "-50% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] },
     );
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
-  }, [direction]);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {

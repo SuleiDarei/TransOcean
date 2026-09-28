@@ -11,11 +11,11 @@ import { MenuButton } from "./MenuButton";
 import { MobileMenu } from "./MobileMenu";
 
 export function SiteHeader() {
-  const { direction, y } = useScrollDirection();
+  const { direction, scrolled } = useScrollDirection();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const hidden = y > 120 && direction === "down" && !open;
-  const compact = y > 120 && !hidden;
+  const hidden = scrolled && direction === "down" && !open;
+  const compact = scrolled && !hidden;
 
   return (
     <header

@@ -3,6 +3,7 @@
 import { homepage } from "@/content/homepage";
 import { getMedia } from "@/content/media";
 import { Button } from "@/components/primitives/Button";
+import { easeMove } from "@/lib/easing";
 import { phProps } from "@/lib/phProps";
 import { usePortraitHero } from "@/lib/hooks/usePortraitHero";
 import { animate, m, useMotionValue, useReducedMotion, useScroll, useTransform } from "framer-motion";
@@ -11,29 +12,6 @@ import { useEffect, useRef } from "react";
 
 const landscapeSources = [{ src: "/media/hero/gm-01.mp4", type: "video/mp4" }];
 const portraitSources = [{ src: "/media/hero/gm-02.mp4", type: "video/mp4" }];
-
-function easeDraw(t: number) {
-  const x1 = 0.65;
-  const y1 = 0;
-  const x2 = 0.35;
-  const y2 = 1;
-  const cx = 3 * x1;
-  const bx = 3 * (x2 - x1) - cx;
-  const ax = 1 - cx - bx;
-  const cy = 3 * y1;
-  const by = 3 * (y2 - y1) - cy;
-  const ay = 1 - cy - by;
-  const sampleX = (u: number) => ((ax * u + bx) * u + cx) * u;
-  const sampleY = (u: number) => ((ay * u + by) * u + cy) * u;
-  const sampleDX = (u: number) => (3 * ax * u + 2 * bx) * u + cx;
-  let u = t;
-  for (let i = 0; i < 5; i++) {
-    const dx = sampleDX(u);
-    if (Math.abs(dx) < 1e-5) break;
-    u -= (sampleX(u) - t) / dx;
-  }
-  return sampleY(Math.min(1, Math.max(0, u)));
-}
 
 export function HeroWaterline() {
   const reduced = useReducedMotion() === true;
@@ -55,7 +33,7 @@ export function HeroWaterline() {
 
   const wl = useTransform([load, scrollYProgress], ([opened, prog]) => {
     const fromLoad = 100 + (rest - 100) * Number(opened);
-    const scrollT = easeDraw(Math.min(1, Number(prog) / 0.55));
+    const scrollT = easeMove(Math.min(1, Number(prog) / 0.55));
     return `${fromLoad * (1 - scrollT)}svh`;
   });
   const lift = useTransform(load, [0, 1], ["6%", "0%"]);

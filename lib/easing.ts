@@ -1,3 +1,4 @@
+/** Cubic bezier solved for y at a given x, matching CSS `cubic-bezier()`. */
 function bezier(x1: number, y1: number, x2: number, y2: number) {
   const cx = 3 * x1;
   const bx = 3 * (x2 - x1) - cx;
@@ -22,14 +23,5 @@ function bezier(x1: number, y1: number, x2: number, y2: number) {
   };
 }
 
-export const easeArrive = bezier(0.16, 1, 0.3, 1);
+/** Same curve as `--ease-move` in globals.css. */
 export const easeMove = bezier(0.65, 0, 0.35, 1);
-export const easeDrift = bezier(0.22, 1, 0.36, 1);
-
-export function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t;
-}
-
-export function clamp(value: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, value));
-}

@@ -8,7 +8,7 @@ import { SkipLink } from "@/components/layout/SkipLink";
 import { indexingBlocked, siteUrl } from "@/lib/metadata";
 import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const archivo = Archivo({

@@ -9,13 +9,11 @@ import { ResponsiveImage } from "@/components/primitives/ResponsiveImage";
 import { Display, Text } from "@/components/primitives/Type";
 import { TextLink } from "@/components/primitives/TextLink";
 import { phProps } from "@/lib/phProps";
-import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 
 export function ServicesIndex() {
   const [active, setActive] = useState(0);
-  const reduced = useReducedMotion() === true;
   const current = services[active];
 
   return (
@@ -71,15 +69,7 @@ export function ServicesIndex() {
           <div className="mt-10 hidden lg:col-span-4 lg:mt-0 lg:block">
             <div className="sticky top-[120px]">
               <div className="aspect-[4/5] overflow-hidden">
-                <div
-                  key={current.slug}
-                  style={{
-                    animation: reduced ? undefined : "none",
-                    transform: "translateY(0)",
-                  }}
-                >
-                  <ResponsiveImage id={current.imageId} sizes="30vw" />
-                </div>
+                <ResponsiveImage key={current.slug} id={current.imageId} sizes="30vw" />
               </div>
               <p className="t-small mt-3">{current.name}</p>
             </div>

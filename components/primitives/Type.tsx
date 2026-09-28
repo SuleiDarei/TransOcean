@@ -34,26 +34,6 @@ export function Display({
   );
 }
 
-export function Heading({
-  children,
-  className,
-  meta,
-  as: Tag = "h2",
-  id,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  meta?: ContentMeta;
-  as?: "h1" | "h2" | "h3";
-  id?: string;
-}) {
-  return (
-    <Tag id={id} className={cn("t-heading-s", className)} {...phProps(meta)}>
-      {children}
-    </Tag>
-  );
-}
-
 export function Text({
   children,
   variant = "body",

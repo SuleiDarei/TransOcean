@@ -41,7 +41,6 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         imageId={service.imageId}
         variant={service.layout === "scope" ? "split" : service.layout === "scale" ? "fullbleed" : "type"}
       />
-      {service.layout === "sequence" && service.imageId ? null : null}
       <section className="bg-limestone py-[var(--space-section)] text-night">
         <Container>
           <p className="t-lead max-w-measure">{service.intro}</p>

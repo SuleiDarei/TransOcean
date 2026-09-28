@@ -41,7 +41,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         imageId={service.imageId}
         variant={service.layout === "scope" ? "split" : service.layout === "scale" ? "fullbleed" : "type"}
       />
-      <section className="bg-limestone py-[var(--space-section)] text-night">
+      <section className="bg-water py-[var(--space-section)] text-ink">
         <Container>
           <p className="t-lead max-w-measure">{service.intro}</p>
           <h2 className="t-heading-s mt-16">What&apos;s included</h2>
@@ -64,7 +64,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         </Container>
       </section>
       {service.layout === "scale" ? <VesselScale filter={scaleFilters[service.slug]} /> : null}
-      <section className="bg-limestone pb-8 text-night">
+      <section className="bg-water pb-8 text-ink">
         <Container>
           <h2 className="t-heading-s">Related services</h2>
           <div className="mt-6 flex flex-col gap-4">

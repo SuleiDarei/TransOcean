@@ -4,15 +4,12 @@ import { homepage } from "@/content/homepage";
 import { vesselClasses } from "@/content/vesselClasses";
 import { silhouettes } from "@/lib/vessels/silhouettes";
 import { phProps } from "@/lib/phProps";
-import { m, useReducedMotion } from "framer-motion";
 import { useEffect, useRef } from "react";
 
 const SCALE = 1.2;
-const easeDraw = [0.65, 0, 0.35, 1] as const;
 
 export function VesselScale({ filter, className }: { filter?: string[]; className?: string }) {
   const classes = filter ? vesselClasses.filter((vessel) => filter.includes(vessel.id)) : vesselClasses;
-  const reduced = useReducedMotion() === true;
   const sectionRef = useRef<HTMLElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLSpanElement>(null);
@@ -51,7 +48,7 @@ export function VesselScale({ filter, className }: { filter?: string[]; classNam
   return (
     <section
       ref={sectionRef}
-      className={`svc-section vessels bg-limestone text-night${className ? ` ${className}` : ""}`}
+      className={`svc-section vessels bg-water text-ink${className ? ` ${className}` : ""}`}
       aria-labelledby="vessel-classes-title"
     >
       <header className="vessels__head">
@@ -63,8 +60,8 @@ export function VesselScale({ filter, className }: { filter?: string[]; classNam
             {homepage.vessels.note}
           </p>
         </div>
-        <p className="vessels__hint" aria-hidden="true">
-          {homepage.vessels.scrollHint} <span>→</span>
+        <p className="vessels__hint t-small" aria-hidden="true">
+          {homepage.vessels.scrollHint}
         </p>
       </header>
 
@@ -76,18 +73,12 @@ export function VesselScale({ filter, className }: { filter?: string[]; classNam
         aria-label="Vessel classes drawn to a shared scale. Scroll sideways to compare."
       >
         <ul className="vessels__track" role="list">
-          {classes.map((vessel, index) => {
+          {classes.map((vessel) => {
             const art = silhouettes[vessel.id];
             return (
               <li className="vessel" key={vessel.id}>
                 <figure>
-                  <m.div
-                    className="vessel__art"
-                    initial={reduced ? false : { clipPath: "inset(0 100% 0 0)" }}
-                    whileInView={{ clipPath: "inset(0 0% 0 0)" }}
-                    viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-                    transition={{ duration: reduced ? 0 : 0.9, ease: easeDraw, delay: reduced ? 0 : index * 0.12 }}
-                  >
+                  <div className="vessel__art">
                     <svg
                       viewBox={`0 0 ${vessel.length} 100`}
                       width={vessel.length * SCALE}
@@ -95,10 +86,10 @@ export function VesselScale({ filter, className }: { filter?: string[]; classNam
                       aria-hidden="true"
                       focusable="false"
                     >
-                      <path d={art.below} fill="#C9C2B4" fillOpacity="0.6" />
-                      <path d={art.above} fill="#10161C" />
+                      <path d={art.below} fill="var(--shallows)" />
+                      <path d={art.above} fill="var(--ink)" />
                     </svg>
-                  </m.div>
+                  </div>
                   <figcaption>
                     <span className="vessel__tick" aria-hidden="true" />
                     <span className="vessel__name">{vessel.name}</span>

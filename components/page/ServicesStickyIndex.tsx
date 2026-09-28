@@ -26,7 +26,7 @@ export function ServicesStickyIndex() {
     <>
       <nav aria-label="Services" className="sticky top-32 hidden flex-col gap-3 lg:flex">
         {services.map((service) => (
-          <a key={service.slug} href={`#service-${service.slug}`} className={active === service.slug ? "t-body text-night" : "t-body text-slate"}>
+          <a key={service.slug} href={`#service-${service.slug}`} className={active === service.slug ? "t-body text-ink" : "t-body text-slate"}>
             {service.name}
           </a>
         ))}

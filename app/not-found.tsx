@@ -4,7 +4,7 @@ import { TextLink } from "@/components/primitives/TextLink";
 
 export default function NotFound() {
   return (
-    <section className="bg-limestone text-night">
+    <section className="bg-water text-ink">
       <Container className="pb-32 pt-[calc(var(--nav-h)+96px)]">
         <h1 className="t-display-xl">{seo.notFound.title}</h1>
         <p className="t-lead mt-8 max-w-measure text-slate">{seo.notFound.body}</p>

@@ -4,7 +4,6 @@ import { homepage } from "@/content/homepage";
 import { services } from "@/content/services";
 import { Container } from "@/components/layout/Container";
 import { Col, Grid } from "@/components/layout/Grid";
-import { Icon } from "@/components/primitives/Icon";
 import { ResponsiveImage } from "@/components/primitives/ResponsiveImage";
 import { Display, Text } from "@/components/primitives/Type";
 import { TextLink } from "@/components/primitives/TextLink";
@@ -20,7 +19,7 @@ export function ServicesIndex() {
   const current = services[active];
 
   return (
-    <section className="bg-limestone pb-[var(--space-section)] text-night" aria-labelledby="services-title">
+    <section className="bg-water pb-[var(--space-section)] text-ink" aria-labelledby="services-title">
       <Container>
         <Grid className="items-end">
           <Col span={4} lg={6}>
@@ -57,10 +56,6 @@ export function ServicesIndex() {
                   <span className="t-body col-span-3 text-slate lg:col-span-2 max-lg:!opacity-100" style={{ opacity: dimmed ? 0.45 : 1 }}>
                     {service.descriptor}
                   </span>
-                  <Icon
-                    name="arrow"
-                    className="col-span-1 justify-self-end transition-transform duration-quick ease-standard group-hover:translate-x-1.5 rtl:group-hover:-translate-x-1.5"
-                  />
                 </Link>
               );
             })}

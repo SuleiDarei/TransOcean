@@ -172,12 +172,12 @@ export function HeroWaterline() {
             {homepage.hero.subline}
           </p>
           {portrait ? null : (
-            <Button href="/contact">{homepage.hero.cta}</Button>
+            <Button href="/contact" variant="primary">{homepage.hero.cta}</Button>
           )}
         </div>
         {portrait ? (
           <div className="wl__dock">
-            <Button href="/contact" surface="dark" className="w-full">
+            <Button href="/contact" variant="primary" className="w-full">
               {homepage.hero.cta}
             </Button>
           </div>

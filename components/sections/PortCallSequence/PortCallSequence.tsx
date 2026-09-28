@@ -58,7 +58,7 @@ export function PortCallSequence() {
   }, [count]);
 
   return (
-    <section ref={sectionRef} className="bg-limestone text-night" style={{ paddingTop: 160 }} aria-labelledby="port-call-title">
+    <section ref={sectionRef} className="bg-water text-ink" style={{ paddingTop: 160 }} aria-labelledby="port-call-title">
       <Container>
         <Grid className="items-end">
           <Col span={4} md={8} lg={7}>
@@ -72,13 +72,13 @@ export function PortCallSequence() {
         </Grid>
       </Container>
 
-      <div className="sticky top-0 z-20 border-b bg-limestone px-[var(--margin)] lg:hidden" style={{ borderColor: "var(--rule-light)", height: 48 }}>
+      <div className="sticky top-0 z-20 border-b bg-water px-[var(--margin)] lg:hidden" style={{ borderColor: "var(--rule-light)", height: 48 }}>
         <div className="flex h-full items-center">
           <p className="t-small font-semibold">
             Stage {active + 1} of {count} · {stages[active]?.title}
           </p>
         </div>
-        <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-sodium" style={{ transform: `scaleX(${progress})` }} />
+        <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-light" style={{ transform: `scaleX(${progress})` }} />
       </div>
 
       <div className="mt-16 lg:mt-32">
@@ -103,12 +103,12 @@ export function PortCallSequence() {
 
           <div className="relative hidden lg:col-span-1 lg:block">
             <div className="sticky flex justify-center" style={{ top: "20svh", height: "60svh" }}>
-              <div className="relative h-full w-px bg-sand">
-                <div className="absolute inset-x-0 top-0 w-0.5 origin-top bg-sodium" style={{ height: "100%", transform: `scaleY(${progress})` }} />
+              <div className="relative h-full w-px bg-shallows">
+                <div className="absolute inset-x-0 top-0 w-0.5 origin-top bg-light" style={{ height: "100%", transform: `scaleY(${progress})` }} />
                 {stages.map((stage, index) => (
                   <span
                     key={stage.id}
-                    className="absolute h-px w-2 bg-night"
+                    className="absolute h-px w-2 bg-ink"
                     style={{ top: `${(index / (count - 1 || 1)) * 100}%`, insetInlineStart: -3 }}
                   />
                 ))}

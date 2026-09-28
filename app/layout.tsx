@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       data-show-placeholders={showPlaceholders ? "true" : undefined}
       className={`${archivo.variable} h-full`}
     >
-      <body className="min-h-full bg-limestone font-sans text-night antialiased">
+      <body className="min-h-full bg-water font-sans text-ink antialiased">
         <MotionProvider>
           <SkipLink />
           <SiteHeader />

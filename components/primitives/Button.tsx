@@ -5,6 +5,8 @@ import { Icon } from "./Icon";
 type Props = {
   children: React.ReactNode;
   href?: string;
+  /** `primary` is the single magenta action on a page. `surface` picks the neutral fill for light or dark backgrounds. */
+  variant?: "primary" | "neutral";
   surface?: "light" | "dark";
   type?: "button" | "submit";
   disabled?: boolean;
@@ -13,27 +15,10 @@ type Props = {
   ariaLabel?: string;
 };
 
-const pieces = [
-  "polygon(0 0, 44% 0, 36% 34%, 14% 62%, 0 48%)",
-  "polygon(42% 0, 70% 0, 76% 40%, 50% 54%, 34% 32%)",
-  "polygon(68% 0, 100% 0, 100% 46%, 80% 36%, 74% 38%)",
-  "polygon(0 46%, 16% 60%, 12% 100%, 0 100%)",
-  "polygon(14% 58%, 52% 52%, 56% 100%, 10% 100%)",
-  "polygon(50% 50%, 78% 36%, 100% 44%, 100% 100%, 54% 100%)",
-];
-
-const cracks = [
-  "M50 52 L36 34 L44 0",
-  "M50 52 L76 40 L70 0",
-  "M50 52 L16 60 L0 48",
-  "M50 52 L56 100",
-  "M50 52 L100 46",
-  "M36 34 L14 62",
-];
-
 export function Button({
   children,
   href,
+  variant = "neutral",
   surface = "light",
   type = "button",
   disabled,
@@ -41,25 +26,12 @@ export function Button({
   onClick,
   ariaLabel,
 }: Props) {
-  const classes = cn("btn group t-button", surface === "light" ? "btn--light" : "btn--dark", className);
+  const tone = variant === "primary" ? "btn--primary" : surface === "light" ? "btn--ink" : "btn--water";
+  const classes = cn("btn t-button", tone, className);
   const inner = (
     <>
-      <span className="btn__plate" aria-hidden="true">
-        {pieces.map((clip, index) => (
-          <span key={clip} className={`btn__piece btn__piece--${index + 1}`} style={{ clipPath: clip }} />
-        ))}
-        <span className="btn__cover" />
-        <svg className="btn__cracks" viewBox="0 0 100 100" preserveAspectRatio="none">
-          {cracks.map((d, index) => (
-            <path key={d} d={d} pathLength={1} style={{ transitionDelay: `${0.04 + index * 0.045}s` }} />
-          ))}
-        </svg>
-      </span>
-      <span className="relative z-[2]">{children}</span>
-      <Icon
-        name="arrow"
-        className="relative z-[2] transition-transform duration-quick ease-standard group-hover:translate-x-1 rtl:group-hover:-translate-x-1"
-      />
+      <span>{children}</span>
+      <Icon name="arrow" />
     </>
   );
   if (href) {

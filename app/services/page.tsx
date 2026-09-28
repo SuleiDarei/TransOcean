@@ -16,7 +16,7 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero lines={servicesPage.lines} lead={servicesPage.lead} meta={servicesPage.meta} />
-      <section className="svc-section bg-limestone text-night">
+      <section className="svc-section bg-water text-ink">
         <Container>
           <div className="lg:grid lg:grid-cols-12" style={{ columnGap: "var(--gutter)" }}>
             <div className="lg:col-span-3">

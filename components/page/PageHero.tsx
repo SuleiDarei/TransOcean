@@ -20,11 +20,11 @@ export function PageHero({
 }) {
   if (variant === "fullbleed" && imageId) {
     return (
-      <section className="relative h-[100svh] bg-night text-limestone">
+      <section className="relative h-[100svh] bg-ink text-water">
         <ResponsiveImage id={imageId} sizes="100vw" priority className="absolute inset-0" />
-        <div className="absolute inset-x-0 bottom-0 bg-night" style={{ height: "30%" }}>
+        <div className="absolute inset-x-0 bottom-0 bg-ink" style={{ height: "30%" }}>
           <Container className="flex h-full items-end pb-12">
-            <Display as="h1" lines={lines} variant="xl" meta={meta} className="text-limestone" />
+            <Display as="h1" lines={lines} variant="xl" meta={meta} className="text-water" />
           </Container>
         </div>
       </section>
@@ -33,7 +33,7 @@ export function PageHero({
 
   if (variant === "split" && imageId) {
     return (
-      <section className="bg-limestone text-night lg:grid lg:min-h-[100svh] lg:grid-cols-12" style={{ columnGap: "var(--gutter)" }}>
+      <section className="bg-water text-ink lg:grid lg:min-h-[100svh] lg:grid-cols-12" style={{ columnGap: "var(--gutter)" }}>
         <div className="px-[var(--margin)] pb-16 pt-[calc(var(--nav-h)+64px)] lg:col-span-6">
           <Display as="h1" lines={lines} variant="xl" meta={meta} />
           {lead ? (
@@ -50,7 +50,7 @@ export function PageHero({
   }
 
   return (
-    <section className="bg-limestone text-night">
+    <section className="bg-water text-ink">
       <Container className="pb-16 pt-[calc(var(--nav-h)+64px)]">
         <Grid>
           <Col span={4} lg={10}>

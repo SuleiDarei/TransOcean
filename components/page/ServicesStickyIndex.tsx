@@ -24,18 +24,18 @@ export function ServicesStickyIndex() {
 
   return (
     <>
-      <nav aria-label="Services" className="sticky top-32 hidden flex-col gap-3 lg:flex">
+      <nav aria-label="Services" className="svc-index sticky top-32 hidden flex-col gap-1 lg:flex">
         {services.map((service) => (
-          <a key={service.slug} href={`#service-${service.slug}`} className={active === service.slug ? "t-body text-ink" : "t-body text-slate"}>
+          <a key={service.slug} href={`#service-${service.slug}`} className="t-body" aria-current={active === service.slug ? "true" : undefined}>
             {service.name}
           </a>
         ))}
       </nav>
-      <details className="mb-10 border px-4 py-3 lg:hidden" style={{ borderColor: "var(--rule-light)" }}>
-        <summary className="t-body cursor-pointer">{servicesPage.jump}</summary>
-        <div className="mt-4 grid gap-3">
+      <details className="svc-jump mb-10 lg:hidden">
+        <summary className="t-body">{servicesPage.jump}</summary>
+        <div className="svc-jump__list">
           {services.map((service) => (
-            <a key={service.slug} href={`#service-${service.slug}`} className="t-body inline-flex min-h-11 items-center">
+            <a key={service.slug} href={`#service-${service.slug}`} className="t-body">
               {service.name}
             </a>
           ))}

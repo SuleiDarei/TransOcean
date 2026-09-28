@@ -29,12 +29,12 @@ export default function ServicesPage() {
                     <ResponsiveImage id={service.imageId} sizes="(min-width: 1024px) 60vw, 100vw" />
                   </div>
                   <h2 className="t-display-m mt-8">{service.name}</h2>
-                  <p className="t-lead mt-4 text-slate">{service.descriptor}</p>
-                  <div className="mt-8">
+                  <p className="t-lead mt-4 max-w-measure text-slate">{service.descriptor}</p>
+                  <div className="scope mt-8">
                     <IncludedList items={service.included.slice(0, 4).map((item) => item.term)} />
-                  </div>
-                  <div className="mt-8">
-                    <TextLink href={`/services/${service.slug}`}>{servicesPage.details}</TextLink>
+                    <p className="mt-6">
+                      <TextLink href={`/services/${service.slug}`}>{servicesPage.details}</TextLink>
+                    </p>
                   </div>
                 </article>
               ))}

@@ -120,7 +120,7 @@ export function CoastNetwork({
                     x={gulf ? label.x - 10 : label.x}
                     y={gulf ? label.y - 14 : label.y}
                     fill="rgba(243, 245, 242,0.72)"
-                    className="map-label t-label"
+                    className="map-label"
                     textAnchor={label.x > 750 ? "end" : "start"}
                   >
                     {label.text}

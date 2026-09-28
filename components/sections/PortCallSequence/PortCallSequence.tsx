@@ -132,7 +132,7 @@ export function PortCallSequence() {
                     <ResponsiveImage id={stage.imageId} sizes="100vw" />
                   </div>
                 </div>
-                <p className="t-label text-slate">
+                <p className="t-label">
                   Stage {index + 1} of {count}
                 </p>
                 <h3 className="t-display-m mt-4">{stage.title}</h3>
